@@ -23,7 +23,7 @@ namespace function
         ifTrue(std::forward<PassArgs>(args)...);
     }
 
-    template<class LeftRet, class... LeftArgs, class RightRet, class... RightArgs, class... PassArgs, typename ::std::enable_if<::std::is_same<LeftRet, void>::value || ::std::is_same<RightRet, void>::valu, int>::type = 0>
+    template<class LeftRet, class... LeftArgs, class RightRet, class... RightArgs, class... PassArgs, typename ::std::enable_if<::std::is_same<LeftRet, void>::value || ::std::is_same<RightRet, void>::value, int>::type = 0>
     void Switch(std::false_type, const Function<LeftRet, LeftArgs...>& ifTrue, const Function<RightRet, RightArgs...>& ifFalse, PassArgs&& ... args)
     {
         ifFalse(std::forward<PassArgs>(args)...);
