@@ -4,7 +4,7 @@
 
 #include "Visit.h"
 
-namespace function
+namespace Chroma
 {
     template<class... Args>
     class Variant;

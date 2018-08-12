@@ -2,7 +2,7 @@
 
 #include "ParameterIndex.h"
 
-namespace function
+namespace Chroma
 {
     template<class NumT, NumT... indices>
     struct Indices

@@ -4,7 +4,7 @@
 
 #include "ParameterPack.h"
 
-namespace function
+namespace Chroma
 {
     template<class Ret, class... Args>
     struct DiscoverStdFunction

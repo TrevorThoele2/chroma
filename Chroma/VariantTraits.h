@@ -1,6 +1,6 @@
 #pragma once
 
-namespace function
+namespace Chroma
 {
     template<class... Args>
     class Variant;

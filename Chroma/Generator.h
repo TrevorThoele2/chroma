@@ -3,7 +3,7 @@
 #include "RangeSize.h"
 #include "Indices.h"
 
-namespace function
+namespace Chroma
 {
     template<class IterateT, template<IterateT...> class GenT>
     class TypeGeneratorRange

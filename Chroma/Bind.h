@@ -6,7 +6,7 @@
 #include "Generator.h"
 #include "Iterate.h"
 
-namespace function
+namespace Chroma
 {
     template<class... Args>
     class Binder

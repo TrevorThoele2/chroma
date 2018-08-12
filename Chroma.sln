@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Function", "Function\Function.vcxproj", "{11D859BD-185B-40E3-9EBA-0FA17D6FD187}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chroma", "Chroma\Chroma.vcxproj", "{11D859BD-185B-40E3-9EBA-0FA17D6FD187}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

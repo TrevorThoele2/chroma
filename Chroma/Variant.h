@@ -11,7 +11,7 @@
 
 #include "VariadicTemplate.h"
 
-namespace function
+namespace Chroma
 {
     template<class... Args>
     bool operator==(const Variant<Args...>& left, const Variant<Args...>& right);
@@ -139,13 +139,13 @@ namespace function
         template<class T>
         inline static void CheckForTypeIn()
         {
-            static_assert(typename VariadicTemplateT::template IsTypeInside<T>::value, "The type you are using must actually be inside the variant.");
+            static_assert(VariadicTemplateT::template IsTypeInside<T>::value, "The type you are using must actually be inside the variant.");
         }
 
         template<class T>
         inline static void CheckForTypeInConvertible()
         {
-            static_assert(typename VariadicTemplateT::template IsConvertibleTypeInside<T>::value, "The type you are using must actually be inside the variant and convertible.");
+            static_assert(VariadicTemplateT::template IsConvertibleTypeInside<T>::value, "The type you are using must actually be inside the variant and convertible.");
         }
 
         template<ID id>

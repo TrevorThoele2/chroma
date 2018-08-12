@@ -4,7 +4,7 @@
 #include "ParameterPack.h"
 #include "ParameterIndex.h"
 
-namespace function
+namespace Chroma
 {
     template<class T>
     struct FunctionTraits;
@@ -84,7 +84,7 @@ namespace std
     class function;
 }
 
-namespace function
+namespace Chroma
 {
     template<class Ret, class... Args>
     struct FunctionTraits<std::function<Ret(Args...)>>

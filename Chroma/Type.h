@@ -3,7 +3,7 @@
 #include <tuple>
 #include "ParameterIndex.h"
 
-namespace function
+namespace Chroma
 {
     template<class T>
     struct Type

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace function
+namespace Chroma
 {
     class VariantException : public std::exception
     {

@@ -2,7 +2,7 @@
 
 #include "VariadicTemplate.h"
 
-namespace function
+namespace Chroma
 {
     template<class Value, class OwningClass, Value OwningClass::*fieldPass>
     class ClassPathPiece

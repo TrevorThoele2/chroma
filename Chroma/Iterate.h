@@ -6,7 +6,7 @@
 
 #include "Type.h"
 
-namespace function
+namespace Chroma
 {
     namespace detail
     {

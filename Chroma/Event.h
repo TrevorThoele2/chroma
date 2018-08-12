@@ -5,7 +5,7 @@
 #include <memory>
 #include "Function.h"
 
-namespace function
+namespace Chroma
 {
     template<class... Args>
     class EventConnection;

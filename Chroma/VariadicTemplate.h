@@ -5,7 +5,7 @@
 
 #include "Type.h"
 
-namespace function
+namespace Chroma
 {
     typedef size_t VariadicTemplateSize;
 
@@ -36,7 +36,7 @@ namespace function
         class Transform
         {
         private:
-            template<::function::VariadicTemplateSize index, class... HoldArgs>
+            template<VariadicTemplateSize index, class... HoldArgs>
             struct Impl
             {
                 typedef typename Transformer<typename Parameter<index - 1>::Type>::Type PieceType;

@@ -3,7 +3,7 @@
 #include <type_traits>
 #include "Function.h"
 
-namespace function
+namespace Chroma
 {
     template<class LeftRet, class... LeftArgs, class RightRet, class... RightArgs, class... PassArgs, typename ::std::enable_if<!::std::is_same<LeftRet, void>::value && !::std::is_same<RightRet, void>::value, int>::type = 0>
     LeftRet Switch(std::true_type, const Function<LeftRet, LeftArgs...>& ifTrue, const Function<RightRet, RightArgs...>& ifFalse, PassArgs&& ... args)
