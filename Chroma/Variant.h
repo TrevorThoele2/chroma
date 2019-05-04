@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <typeindex>
-#include <exception>
 
 #include "VariantDetail.h"
 #include "VariantException.h"
@@ -10,6 +9,7 @@
 #include "Visit.h"
 
 #include "VariadicTemplate.h"
+#include "SelectableType.h"
 
 namespace Chroma
 {
@@ -29,6 +29,8 @@ namespace Chroma
     template<class... Args>
     class Variant
     {
+    private:
+        typedef SelectableType<Args...> SelectedType;
     public:
         typedef VariadicTemplate<Args...> VariadicTemplateT;
         typedef VariadicTemplateSize ID;
@@ -37,15 +39,14 @@ namespace Chroma
 
         template<VariadicTemplateSize index>
         using TypeOfParameter = typename VariadicTemplateT::template Parameter<index>::Type;
+
+        typedef typename SelectedType::TypeIndex TypeIndex;
     private:
-        typedef std::type_index Type;
         template<class Variant, class Use>
         friend class detail::VariantSwitch;
 
-        // Require there to be types in this variant
-        static_assert(count > 0, "There must be at least one type in this variant.");
-
         typedef detail::VariantIterationImplementation<Variant<Args...>> IterationImplementation;
+        friend detail::VariantIterationImplementation<Variant<Args...>>;
         typedef detail::VariantVisitImplementation VisitImplementation;
         friend detail::VariantVisitImplementation;
         typedef detail::VariantVisitStrategy VariantVisitStrategy;
@@ -64,9 +65,12 @@ namespace Chroma
 
         Variant(const Variant& arg);
         Variant(Variant&& arg);
+
         ~Variant();
+
         Variant& operator=(const Variant& arg);
         Variant& operator=(Variant&& arg);
+
         friend bool operator== <>(const Variant& left, const Variant& right);
         friend bool operator!= <>(const Variant& left, const Variant& right);
         friend bool operator< <>(const Variant& left, const Variant& right);
@@ -109,15 +113,13 @@ namespace Chroma
 
         template<class T>
         bool Is() const;
-        const Type& GetType() const;
+        const TypeIndex& GetType() const;
         ID GetTypeAsID() const;
         bool IsInhabited() const;
 
         template<class... OtherArgs>
         Variant<OtherArgs...> ConvertTo() const;
     private:
-        static Type NullType();
-
         void SetImpl();
         template<class T, typename std::enable_if<!VariantTraits<T>::isVariant, int>::type = 0>
         void SetImpl(const T& set);
@@ -155,44 +157,45 @@ namespace Chroma
         }
     private:
         std::vector<char> bytes;
-        Type typeIndex;
+    private:
+        SelectedType selectedType;
     };
 
     template<class... Args>
-    Variant<Args...>::Variant() : typeIndex(NullType())
+    Variant<Args...>::Variant()
     {}
 
     template<class... Args>
     template<class T, typename std::enable_if<!VariantTraits<T>::isVariant, int>::type>
-    Variant<Args...>::Variant(const T& arg) : typeIndex(typeid(T))
+    Variant<Args...>::Variant(const T& arg) : selectedType(Type<T>{})
     {
         Set(arg);
     }
 
     template<class... Args>
     template<class T, typename std::enable_if<!VariantTraits<T>::isVariant, int>::type>
-    Variant<Args...>::Variant(T& arg) : typeIndex(typeid(T))
+    Variant<Args...>::Variant(T& arg) : selectedType(Type<T>{})
     {
         Set(arg);
     }
 
     template<class... Args>
     template<class T, typename std::enable_if<!VariantTraits<T>::isVariant, int>::type>
-    Variant<Args...>::Variant(T&& arg) : typeIndex(typeid(T))
+    Variant<Args...>::Variant(T&& arg) : selectedType(Type<T>{})
     {
         Set(std::move(arg));
     }
 
     template<class... Args>
     template<class T, typename std::enable_if<!VariantTraits<T>::isVariant, int>::type>
-    Variant<Args...>::Variant(T* arg) : typeIndex(typeid(T*))
+    Variant<Args...>::Variant(T* arg) : selectedType(Type<T>{})
     {
         Set(arg);
     }
 
     template<class... Args>
     template<class OtherVariantT, typename std::enable_if<VariantTraits<OtherVariantT>::isVariant, int>::type>
-    Variant<Args...>::Variant(const OtherVariantT& other) : typeIndex(other.GetType())
+    Variant<Args...>::Variant(const OtherVariantT& other)
     {
         if (other.IsInhabited())
             Visit<VisitImplementation>(other, *this, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::CONVERT_TO>{});
@@ -201,7 +204,7 @@ namespace Chroma
     }
 
     template<class... Args>
-    Variant<Args...>::Variant(const Variant& arg) : typeIndex(arg.typeIndex)
+    Variant<Args...>::Variant(const Variant& arg) : selectedType(arg.selectedType)
     {
         if (arg.IsInhabited())
             Visit<VisitImplementation>(arg, *this, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::SET>{});
@@ -210,7 +213,7 @@ namespace Chroma
     }
 
     template<class... Args>
-    Variant<Args...>::Variant(Variant&& arg) : typeIndex(std::move(arg.typeIndex))
+    Variant<Args...>::Variant(Variant&& arg) : selectedType(std::move(arg.selectedType))
     {
         if (arg.IsInhabited())
             Visit<VisitImplementation>(std::move(arg), *this, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::TAKE_FROM>{});
@@ -231,7 +234,7 @@ namespace Chroma
     template<class... Args>
     Variant<Args...>& Variant<Args...>::operator=(const Variant& arg)
     {
-        typeIndex = arg.typeIndex;
+        selectedType = arg.selectedType;
         if (arg.IsInhabited())
             Visit<VisitImplementation>(arg, *this, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::SET>{});
         else
@@ -242,9 +245,9 @@ namespace Chroma
     template<class... Args>
     Variant<Args...>& Variant<Args...>::operator=(Variant&& arg)
     {
-        typeIndex = std::move(arg.typeIndex);
+        selectedType = std::move(arg.selectedType);
         if (arg.IsInhabited())
-            Visit<VisitImplementation>(std::move(arg), *this, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::TAKE_FROM>{});
+            Visit<VisitImplementation>(arg, *this, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::TAKE_FROM>{});
         else
             Set();
         arg.Set();
@@ -372,14 +375,14 @@ namespace Chroma
     void Variant<Args...>::SetBytes(const std::vector<char> &set, ID id)
     {
         bytes = set;
-        typeIndex = IterationImplementation::GetTypeIndex(id);
+        IterationImplementation::Select(id, selectedType);
     }
 
     template<class... Args>
     void Variant<Args...>::SetBytes(std::vector<char> &&set, ID id)
     {
         bytes = std::move(set);
-        typeIndex = IterationImplementation::GetTypeIndex(id);
+        IterationImplementation::Select(id, selectedType);
     }
 
     template<class... Args>
@@ -408,7 +411,7 @@ namespace Chroma
 
     template<class... Args>
     template<VariadicTemplateSize id>
-    typename Variant<Args...>::TypeOfParameter<id>& Variant<Args...>::Get()
+    typename Variant<Args...>::template TypeOfParameter<id>& Variant<Args...>::Get()
     {
         typedef TypeOfParameter<id> UseType;
         CheckForIDIn<id>();
@@ -454,7 +457,7 @@ namespace Chroma
 
     template<class... Args>
     template<VariadicTemplateSize id>
-    typename Variant<Args...>::TypeOfParameter<id>* Variant<Args...>::GetAsPointer()
+    typename Variant<Args...>::template TypeOfParameter<id>* Variant<Args...>::GetAsPointer()
     {
         typedef TypeOfParameter<id> UseType;
         CheckForIDIn<id>();
@@ -485,13 +488,13 @@ namespace Chroma
     bool Variant<Args...>::Is() const
     {
         CheckForTypeIn<T>();
-        return Type(typeid(T)) == typeIndex;
+        return selectedType.Is<T>();
     }
 
     template<class... Args>
-    typename const Variant<Args...>::Type& Variant<Args...>::GetType() const
+    typename const Variant<Args...>::TypeIndex& Variant<Args...>::GetType() const
     {
-        return typeIndex;
+        return selectedType.Selected();
     }
 
     template<class... Args>
@@ -506,7 +509,7 @@ namespace Chroma
     template<class... Args>
     bool Variant<Args...>::IsInhabited() const
     {
-        return typeIndex != NullType();
+        return selectedType.HasSelected();
     }
 
     template<class... Args>
@@ -519,16 +522,10 @@ namespace Chroma
     }
 
     template<class... Args>
-    typename Variant<Args...>::Type Variant<Args...>::NullType()
-    {
-        return typeid(detail::NullT);
-    }
-
-    template<class... Args>
     void Variant<Args...>::SetImpl()
     {
         bytes.clear();
-        typeIndex = NullType();
+        selectedType.Unselect();
     }
 
     template<class... Args>
@@ -539,7 +536,7 @@ namespace Chroma
         bytes.clear();
         bytes.resize(sizeof(T));
         new (reinterpret_cast<T*>(bytes.data())) T(set);
-        typeIndex = typeid(T);
+        selectedType.Select<T>();
     }
 
     template<class... Args>
@@ -550,7 +547,7 @@ namespace Chroma
         bytes.clear();
         bytes.resize(sizeof(T));
         new (reinterpret_cast<T*>(bytes.data())) T(set);
-        typeIndex = typeid(T);
+        selectedType.Select<T>();
     }
 
     template<class... Args>
@@ -561,7 +558,7 @@ namespace Chroma
         bytes.clear();
         bytes.resize(sizeof(T));
         new (reinterpret_cast<T*>(bytes.data())) T(std::move(set));
-        typeIndex = typeid(T);
+        selectedType.Select<T>();
     }
 
     template<class... Args>
@@ -572,7 +569,7 @@ namespace Chroma
         bytes.clear();
         bytes.resize(sizeof(T*));
         new (reinterpret_cast<T*>(bytes.data())) T*(set);
-        typeIndex = typeid(T*);
+        selectedType.Select<T>();
     }
 
     template<class... Args>

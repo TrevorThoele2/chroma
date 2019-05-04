@@ -33,7 +33,7 @@ namespace Chroma
             static ValidityT CheckStopForward(ValidityT invalid, Args&& ... args)
             {
                 static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-                if (IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>::CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...) == invalid)
+                if (IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>::template CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...) == invalid)
                     return invalid;
 
                 return IteratorT<index>::Check(std::forward<Args>(args)...);
@@ -46,7 +46,7 @@ namespace Chroma
                 if (IteratorT<index>::Check(std::forward<Args>(args)...) == invalid)
                     return invalid;
 
-                return IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>::CheckStopBackward<ValidityT>(invalid, std::forward<Args>(args)...);
+                return IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>::template CheckStopBackward<ValidityT>(invalid, std::forward<Args>(args)...);
             }
         };
 
@@ -107,7 +107,7 @@ namespace Chroma
             static ValidityT CheckStopForward(ValidityT invalid, Args&& ... args)
             {
                 static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
-                if (IterateRangeImplementationEnum<NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))>::CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...) == invalid)
+                if (IterateRangeImplementationEnum<NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))>::template CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...) == invalid)
                     return invalid;
 
                 return IteratorT<min>::Check(std::forward<Args>(args)...);
@@ -120,7 +120,7 @@ namespace Chroma
                 if (IteratorT<min>::Check(std::forward<Args>(args)...) == invalid)
                     return invalid;
 
-                return IterateRangeImplementationEnum<NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))>::CheckStopBackward<ValidityT>(invalid, std::forward<Args>(args)...);
+                return IterateRangeImplementationEnum<NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))>::template CheckStopBackward<ValidityT>(invalid, std::forward<Args>(args)...);
             }
         };
 
@@ -217,7 +217,7 @@ namespace Chroma
     ValidityT IterateRangeForwardCheckStop(ValidityT stop, Args&& ... args)
     {
         static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::template CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -228,7 +228,7 @@ namespace Chroma
     ValidityT IterateRangeBackwardCheckStop(ValidityT stop, Args&& ... args)
     {
         static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::template CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -281,7 +281,7 @@ namespace Chroma
     {
         typedef typename std::underlying_type<NumericT>::type Underlying;
         static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::template CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -293,7 +293,7 @@ namespace Chroma
     {
         typedef typename std::underlying_type<NumericT>::type Underlying;
         static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::template CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
