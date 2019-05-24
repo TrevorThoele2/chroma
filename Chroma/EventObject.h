@@ -10,6 +10,7 @@ namespace Chroma
 {
     template<class... Args>
     class EventConnection;
+
     template<class... Args>
     class Event
     {
@@ -260,6 +261,4 @@ namespace Chroma
             ++connectionLoop;
         }
     }
-
-    using NullEvent = Event<>;
 }
