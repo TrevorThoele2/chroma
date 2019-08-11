@@ -30,26 +30,26 @@ namespace Chroma
     class Variant
     {
     private:
-        typedef SelectableType<Args...> SelectedType;
+        using SelectedType = SelectableType<Args...>;
     public:
-        typedef VariadicTemplate<Args...> VariadicTemplateT;
-        typedef VariadicTemplateSize ID;
+        using VariadicTemplateT = VariadicTemplate<Args...>;
+        using ID = VariadicTemplateSize;
         static constexpr ID count = VariadicTemplateT::count;
         static constexpr ID uninhabitedID = count;
 
         template<VariadicTemplateSize index>
         using TypeOfParameter = typename VariadicTemplateT::template Parameter<index>::Type;
 
-        typedef typename SelectedType::TypeIndex TypeIndex;
+        using TypeIndex = typename SelectedType::TypeIndex;
     private:
         template<class Variant, class Use>
         friend class detail::VariantSwitch;
 
-        typedef detail::VariantIterationImplementation<Variant<Args...>> IterationImplementation;
+        using IterationImplementation = detail::VariantIterationImplementation<Variant<Args...>>;
         friend detail::VariantIterationImplementation<Variant<Args...>>;
-        typedef detail::VariantVisitImplementation VisitImplementation;
+        using VisitImplementation = detail::VariantVisitImplementation;
         friend detail::VariantVisitImplementation;
-        typedef detail::VariantVisitStrategy VariantVisitStrategy;
+        using VariantVisitStrategy = detail::VariantVisitStrategy;
     public:
         Variant();
         template<class T, typename std::enable_if<!VariantTraits<T>::isVariant, int>::type = 0>
@@ -141,19 +141,25 @@ namespace Chroma
         template<class T>
         inline static void CheckForTypeIn()
         {
-            static_assert(VariadicTemplateT::template IsTypeInside<T>::value, "The type you are using must actually be inside the variant.");
+            static_assert(
+                VariadicTemplateT::template IsTypeInside<T>::value,
+                "The type you are using must actually be inside the variant.");
         }
 
         template<class T>
         inline static void CheckForTypeInConvertible()
         {
-            static_assert(VariadicTemplateT::template IsConvertibleTypeInside<T>::value, "The type you are using must actually be inside the variant and convertible.");
+            static_assert(
+                VariadicTemplateT::template IsConvertibleTypeInside<T>::value,
+                "The type you are using must actually be inside the variant and convertible.");
         }
 
         template<ID id>
         inline static void CheckForIDIn()
         {
-            static_assert(id <= VariadicTemplateT::count, "The ID you are retrieved must actually be inside the variant.");
+            static_assert(
+                id <= VariadicTemplateT::count,
+                "The ID you are retrieved must actually be inside the variant.");
         }
     private:
         std::vector<char> bytes;
@@ -257,91 +263,97 @@ namespace Chroma
     template<class... Args>
     bool operator==(const Variant<Args...>& left, const Variant<Args...>& right)
     {
-        typedef Variant<Args...> VariantT;
+        using VariantT = Variant<Args...>;
         if (left.GetType() != right.GetType())
             return false;
 
         if (!left.IsInhabited())
             return true;
 
-        typedef typename VariantT::VisitImplementation VisitImplementation;
-        typedef typename VariantT::VariantVisitStrategy VariantVisitStrategy;
-        return VisitReturnMultipleSame<VisitImplementation, bool>(left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::EQUALITY>{});
+        using VisitImplementation = typename VariantT::VisitImplementation;
+        using VariantVisitStrategy = typename VariantT::VariantVisitStrategy;
+        return VisitReturnMultipleSame<VisitImplementation, bool>(
+            left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::EQUALITY>{});
     }
 
     template<class... Args>
     bool operator!=(const Variant<Args...>& left, const Variant<Args...>& right)
     {
-        typedef Variant<Args...> VariantT;
+        using VariantT = Variant<Args...>;
         if (left.GetType() != right.GetType())
             return false;
 
         if (!left.IsInhabited())
             return true;
 
-        typedef typename VariantT::VisitImplementation VisitImplementation;
-        typedef typename VariantT::VariantVisitStrategy VariantVisitStrategy;
-        return VisitReturnMultipleSame<VisitImplementation, bool>(left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::NON_EQUALITY>{});
+        using VisitImplementation = typename VariantT::VisitImplementation;
+        using VariantVisitStrategy = typename VariantT::VariantVisitStrategy;
+        return VisitReturnMultipleSame<VisitImplementation, bool>(
+            left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::NON_EQUALITY>{});
     }
 
     template<class... Args>
     bool operator<(const Variant<Args...>& left, const Variant<Args...>& right)
     {
-        typedef Variant<Args...> VariantT;
+        using VariantT = Variant<Args...>;
         if (left.GetType() != right.GetType())
             return false;
 
         if (!left.IsInhabited())
             return true;
 
-        typedef typename VariantT::VisitImplementation VisitImplementation;
-        typedef typename VariantT::VariantVisitStrategy VariantVisitStrategy;
-        return VisitReturnMultipleSame<VisitImplementation, bool>(left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::LESS>{});
+        using VisitImplementation = typename VariantT::VisitImplementation;
+        using VariantVisitStrategy = typename VariantT::VariantVisitStrategy;
+        return VisitReturnMultipleSame<VisitImplementation, bool>(
+            left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::LESS>{});
     }
 
     template<class... Args>
     bool operator<=(const Variant<Args...>& left, const Variant<Args...>& right)
     {
-        typedef Variant<Args...> VariantT;
+        using VariantT = Variant<Args...>;
         if (left.GetType() != right.GetType())
             return false;
 
         if (!left.IsInhabited())
             return true;
 
-        typedef typename VariantT::VisitImplementation VisitImplementation;
-        typedef typename VariantT::VariantVisitStrategy VariantVisitStrategy;
-        return VisitReturnMultipleSame<VisitImplementation, bool>(left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::LESS_EQUAL>{});
+        using VisitImplementation = typename VariantT::VisitImplementation;
+        using VariantVisitStrategy = typename VariantT::VariantVisitStrategy;
+        return VisitReturnMultipleSame<VisitImplementation, bool>(
+            left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::LESS_EQUAL>{});
     }
 
     template<class... Args>
     bool operator>(const Variant<Args...>& left, const Variant<Args...>& right)
     {
-        typedef Variant<Args...> VariantT;
+        using VariantT = Variant<Args...>;
         if (left.GetType() != right.GetType())
             return false;
 
         if (!left.IsInhabited())
             return true;
 
-        typedef typename VariantT::VisitImplementation VisitImplementation;
-        typedef typename VariantT::VariantVisitStrategy VariantVisitStrategy;
-        return VisitReturnMultipleSame<VisitImplementation, bool>(left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::GREATER>{});
+        using VisitImplementation = typename VariantT::VisitImplementation;
+        using VariantVisitStrategy = typename VariantT::VariantVisitStrategy;
+        return VisitReturnMultipleSame<VisitImplementation, bool>(
+            left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::GREATER>{});
     }
 
     template<class... Args>
     bool operator>=(const Variant<Args...>& left, const Variant<Args...>& right)
     {
-        typedef Variant<Args...> VariantT;
+        using VariantT = Variant<Args...>;
         if (left.GetType() != right.GetType())
             return false;
 
         if (!left.IsInhabited())
             return true;
 
-        typedef typename VariantT::VisitImplementation VisitImplementation;
-        typedef typename VariantT::VariantVisitStrategy VariantVisitStrategy;
-        return VisitReturnMultipleSame<VisitImplementation, bool>(left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::GREATER_EQUAL>{});
+        using VisitImplementation = typename VariantT::VisitImplementation;
+        using VariantVisitStrategy = typename VariantT::VariantVisitStrategy;
+        return VisitReturnMultipleSame<VisitImplementation, bool>(
+            left, right, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::GREATER_EQUAL>{});
     }
 
     template<class... Args>
@@ -413,7 +425,7 @@ namespace Chroma
     template<VariadicTemplateSize id>
     typename Variant<Args...>::template TypeOfParameter<id>& Variant<Args...>::Get()
     {
-        typedef TypeOfParameter<id> UseType;
+        using UseType = TypeOfParameter<id>;
         CheckForIDIn<id>();
         if (!IsInhabited())
             throw VariantException("The variant must actually be inhabited.");
@@ -426,7 +438,7 @@ namespace Chroma
     template<VariadicTemplateSize id>
     typename const Variant<Args...>::TypeOfParameter<id>& Variant<Args...>::Get() const
     {
-        typedef TypeOfParameter<id> UseType;
+        using UseType = TypeOfParameter<id>;
         CheckForIDIn<id>();
         if (!IsInhabited())
             throw VariantException("The variant must actually be inhabited.");
@@ -459,7 +471,7 @@ namespace Chroma
     template<VariadicTemplateSize id>
     typename Variant<Args...>::template TypeOfParameter<id>* Variant<Args...>::GetAsPointer()
     {
-        typedef TypeOfParameter<id> UseType;
+        using UseType = TypeOfParameter<id>;
         CheckForIDIn<id>();
         if (GetType() != typeid(UseType))
             return nullptr;
@@ -470,7 +482,7 @@ namespace Chroma
     template<VariadicTemplateSize id>
     typename const Variant<Args...>::TypeOfParameter<id>* Variant<Args...>::GetAsPointer() const
     {
-        typedef TypeOfParameter<id> UseType;
+        using UseType = TypeOfParameter<id>;
         CheckForIDIn<id>();
         if (GetType() != typeid(UseType))
             return nullptr;
@@ -517,7 +529,8 @@ namespace Chroma
     Variant<OtherArgs...> Variant<Args...>::ConvertTo() const
     {
         Variant<OtherArgs...> ret;
-        Visit<VisitImplementation>(*this, ret, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::CONVERT_TO>{});
+        Visit<VisitImplementation>(
+            *this, ret, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::CONVERT_TO>{});
         return ret;
     }
 

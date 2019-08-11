@@ -7,7 +7,7 @@
 
 namespace Chroma
 {
-    typedef size_t VariadicTemplateSize;
+    using VariadicTemplateSize = size_t;
 
     template<class... Args>
     class VariadicTemplate
@@ -18,10 +18,10 @@ namespace Chroma
         template<VariadicTemplateSize index>
         struct Parameter
         {
-            typedef typename DiscoverType<index, Args...>::Type Type;
+            using Type = typename DiscoverType<index, Args...>::Type;
         };
 
-        typedef std::tuple<Args...> TupleT;
+        using TupleT = std::tuple<Args...>;
         template<class PieceT>
         using ArrayT = std::array<PieceT, count>;
 
@@ -39,38 +39,38 @@ namespace Chroma
             template<VariadicTemplateSize index, class... HoldArgs>
             struct Impl
             {
-                typedef typename Transformer<typename Parameter<index - 1>::Type>::Type PieceType;
-                typedef typename Impl<index - 1, PieceType, HoldArgs...>::Type Type;
+                using PieceType = typename Transformer<typename Parameter<index - 1>::Type>::Type;
+                using Type = typename Impl<index - 1, PieceType, HoldArgs...>::Type;
             };
 
             template<class... HoldArgs>
             struct Impl<0, HoldArgs...>
             {
-                typedef VariadicTemplate<HoldArgs...> Type;
+                using Type = VariadicTemplate<HoldArgs...>;
             };
         public:
-            typedef typename Impl<count>::Type Type;
+            using Type = typename Impl<count>::Type;
         };
 
         template<class... PrependArgs>
         class Prepend
         {
         public:
-            typedef VariadicTemplate<PrependArgs..., Args...> Type;
+            using Type = VariadicTemplate<PrependArgs..., Args...>;
         };
 
         template<class... AppendArgs>
         class Append
         {
         public:
-            typedef VariadicTemplate<Args..., AppendArgs...> Type;
+            using Type = VariadicTemplate<Args..., AppendArgs...>;
         };
 
         template<template<class...> class ForwardTo>
         class ForwardArguments
         {
         public:
-            typedef ForwardTo<Args...> Type;
+            using Type = ForwardTo<Args...>;
         };
 
         template<class T>
@@ -80,7 +80,7 @@ namespace Chroma
             template<VariadicTemplateSize index>
             struct TypeStep
             {
-                typedef typename Parameter<index - 1>::Type PieceType;
+                using PieceType = typename Parameter<index - 1>::Type;
                 static constexpr bool areTypesSame = std::is_same<T, PieceType>::value;
                 // Check if types are the same - if they are, just return true, otherwise check lower down
                 static constexpr bool result = (areTypesSame) ? true : TypeStep<index - 1>::result;
@@ -89,7 +89,7 @@ namespace Chroma
             template<>
             struct TypeStep<0>
             {
-                typedef typename Parameter<0>::Type PieceType;
+                using PieceType = typename Parameter<0>::Type;
                 static constexpr bool areTypesSame = std::is_same<T, PieceType>::value;
                 static constexpr bool result = (areTypesSame) ? true : false;
             };
@@ -104,7 +104,7 @@ namespace Chroma
             template<VariadicTemplateSize index>
             struct TypeStep
             {
-                typedef typename Parameter<index - 1>::Type PieceType;
+                using PieceType = typename Parameter<index - 1>::Type;
                 static constexpr bool areTypesConvertible = std::is_convertible<T, PieceType>::value;
                 // Check if types are the same - if they are, just return true, otherwise check lower down
                 static constexpr bool result = (areTypesConvertible) ? true : TypeStep<index - 1>::result;
@@ -113,7 +113,7 @@ namespace Chroma
             template<>
             struct TypeStep<0>
             {
-                typedef typename Parameter<0>::Type PieceType;
+                using PieceType = typename Parameter<0>::Type;
                 static constexpr bool areTypesConvertible = std::is_convertible<T, PieceType>::value;
                 static constexpr bool result = (areTypesConvertible) ? true : false;
             };
@@ -124,14 +124,16 @@ namespace Chroma
 
     template<class... Args>
     template<class... PassArgs>
-    typename constexpr VariadicTemplate<Args...>::TupleT VariadicTemplate<Args...>::CreateTuple(PassArgs && ... pass) noexcept
+    typename constexpr VariadicTemplate<Args...>::TupleT VariadicTemplate<Args...>::CreateTuple(
+        PassArgs && ... pass) noexcept
     {
         return TupleT(std::forward<PassArgs>(pass)...);
     }
 
     template<class... Args>
     template<class ParameterT, class... PassArgs>
-    typename constexpr VariadicTemplate<Args...>::ArrayT<ParameterT> VariadicTemplate<Args...>::CreateArray(PassArgs && ... pass) noexcept
+    typename constexpr VariadicTemplate<Args...>::ArrayT<ParameterT> VariadicTemplate<Args...>::CreateArray(
+        PassArgs && ... pass) noexcept
     {
         return ArrayT<ParameterT>({ pass... });
     }
@@ -143,6 +145,6 @@ namespace Chroma
     class ToVariadicTemplate<std::tuple<Args...>>
     {
     public:
-        typedef VariadicTemplate<Args...> Type;
+        using Type = VariadicTemplate<Args...>;
     };
 }

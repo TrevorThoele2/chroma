@@ -17,11 +17,9 @@ namespace Chroma
     class SelectableType
     {
     public:
-        typedef VariadicTemplate<Args...> VariadicTemplateT;
-
-        typedef std::type_index TypeIndex;
-
-        typedef VariadicTemplateSize ID;
+        using VariadicTemplateT = VariadicTemplate<Args...>;
+        using TypeIndex = std::type_index;
+        using ID = VariadicTemplateSize;
     public:
         SelectableType();
         template<class T>
@@ -82,7 +80,7 @@ namespace Chroma
             template<ID index>
             struct Step
             {
-                typedef typename VariadicTemplateT::template Parameter<index - 1>::Type PieceType;
+                using PieceType = typename VariadicTemplateT::template Parameter<index - 1>::Type;
 
                 static TypeIndex CheckType()
                 {
@@ -109,7 +107,7 @@ namespace Chroma
             template<>
             struct Step<0>
             {
-                typedef typename VariadicTemplateT::template Parameter<0>::Type PieceType;
+                using PieceType = typename VariadicTemplateT::template Parameter<0>::Type;
 
                 static TypeIndex CheckType()
                 {

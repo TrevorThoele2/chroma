@@ -10,7 +10,7 @@ namespace Chroma
     class EventConnection
     {
     public:
-        typedef Event<Args...> EventT;
+        using EventT = Event<Args...>;
     public:
         EventConnection() = default;
         EventConnection(const EventConnection& arg);
@@ -24,7 +24,7 @@ namespace Chroma
         void Sever();
         bool IsValid() const;
     private:
-        typedef typename EventT::iterator iterator;
+        using iterator = typename EventT::iterator;
 
         std::shared_ptr<iterator> itr;
         std::shared_ptr<EventT*> owner;

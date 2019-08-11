@@ -11,7 +11,7 @@ namespace Chroma
     class Flags
     {
     public:
-        typedef typename std::underlying_type<EnumT>::type Bits;
+        using Bits = typename std::underlying_type<EnumT>::type;
     public:
         Flags();
         Flags(EnumT flag);

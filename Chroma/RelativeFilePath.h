@@ -60,8 +60,8 @@ namespace std
     template<>
     struct hash<::Chroma::RelativeFilePath>
     {
-        typedef ::Chroma::RelativeFilePath argument_type;
-        typedef std::size_t result_type;
+        using argument_type =::Chroma::RelativeFilePath;
+        using result_type = std::size_t;
 
         result_type operator()(const argument_type& arg) const
         {

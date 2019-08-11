@@ -15,18 +15,18 @@ namespace Chroma
         class VariantIterationImplementation
         {
         private:
-            typedef typename VariantT::VariadicTemplateT VariadicTemplateT;
-            typedef VariadicTemplateSize ID;
+            using VariadicTemplateT = typename VariantT::VariadicTemplateT;
+            using ID = VariadicTemplateSize;
             static const ID count = VariadicTemplateT::count;
 
-            typedef typename VariantT::SelectedType SelectedType;
+            using SelectedType = typename VariantT::SelectedType;
 
-            typedef std::type_index TypeIndex;
+            using TypeIndex = std::type_index;
 
             template<VariadicTemplateSize index>
             struct IDStep
             {
-                typedef typename VariadicTemplateT::template Parameter<index - 1>::Type PieceType;
+                using PieceType = typename VariadicTemplateT::template Parameter<index - 1>::Type;
 
                 static TypeIndex GetCheckType()
                 {
@@ -53,7 +53,7 @@ namespace Chroma
             template<>
             struct IDStep<0>
             {
-                typedef typename VariadicTemplateT::template Parameter<0>::Type PieceType;
+                using PieceType = typename VariadicTemplateT::template Parameter<0>::Type;
 
                 static ID GetID(const VariantT& var)
                 {
@@ -89,7 +89,10 @@ namespace Chroma
         {
         public:
             template<class T, class... Args>
-            static void Do(T& t, Variant<Args...> &variant, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::DESTRUCTOR>)
+            static void Do(
+                T& t,
+                Variant<Args...> &variant,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::DESTRUCTOR>)
             {
                 t.~T();
                 variant.bytes.clear();
@@ -97,61 +100,91 @@ namespace Chroma
             }
 
             template<class T, class U>
-            static bool DoReturn(const T& t, const U& u, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::EQUALITY>)
+            static bool DoReturn(
+                const T& t,
+                const U& u,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::EQUALITY>)
             {
                 return t == u;
             }
 
             template<class T, class U>
-            static bool DoReturn(const T& t, const U& u, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::NON_EQUALITY>)
+            static bool DoReturn(
+                const T& t,
+                const U& u,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::NON_EQUALITY>)
             {
                 return t != u;
             }
 
             template<class T, class U>
-            static bool DoReturn(const T& t, const U& u, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::LESS>)
+            static bool DoReturn(
+                const T& t,
+                const U& u,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::LESS>)
             {
                 return t < u;
             }
 
             template<class T, class U>
-            static bool DoReturn(const T& t, const U& u, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::LESS_EQUAL>)
+            static bool DoReturn(
+                const T& t,
+                const U& u,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::LESS_EQUAL>)
             {
                 return t <= u;
             }
 
             template<class T, class U>
-            static bool DoReturn(const T& t, const U& u, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::GREATER>)
+            static bool DoReturn(
+                const T& t,
+                const U& u,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::GREATER>)
             {
                 return t > u;
             }
 
             template<class T, class U>
-            static bool DoReturn(const T& t, const U& u, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::GREATER_EQUAL>)
+            static bool DoReturn(
+                const T& t,
+                const U& u,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::GREATER_EQUAL>)
             {
                 return t >= u;
             }
 
             template<class T, class... OtherArgs>
-            static void Do(T& t, Variant<OtherArgs...>& setup, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::SET>)
+            static void Do(
+                T& t,
+                Variant<OtherArgs...>& setup,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::SET>)
             {
                 setup.Set(t);
             }
 
             template<class T, class... OtherArgs>
-            static void Do(T& t, Variant<OtherArgs...>& setup, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::TAKE_FROM>)
+            static void Do(
+                T& t,
+                Variant<OtherArgs...>& setup,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::TAKE_FROM>)
             {
                 setup.Set(std::move(t));
             }
 
             template<class T, class... OtherArgs>
-            static void Do(const T& t, Variant<OtherArgs...>& convertTo, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::CONVERT_TO>)
+            static void Do(
+                const T& t,
+                Variant<OtherArgs...>& convertTo,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::CONVERT_TO>)
             {
                 convertTo.Set(t);
             }
 
             template<class T, class... OtherArgs>
-            static void Do(T&& t, Variant<OtherArgs...>& convertTo, StrategySelector<VariantVisitStrategy, VariantVisitStrategy::CONVERT_TO>)
+            static void Do(
+                T&& t,
+                Variant<OtherArgs...>& convertTo,
+                StrategySelector<VariantVisitStrategy, VariantVisitStrategy::CONVERT_TO>)
             {
                 convertTo.Set(std::move(t));
             }
