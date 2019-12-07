@@ -2,7 +2,8 @@
 
 #include <string>
 #include <sstream>
-#include "Type.h"
+
+#include "TypeIdentity.h"
 
 namespace Chroma
 {
@@ -27,7 +28,7 @@ namespace Chroma
     namespace detail
     {
         template<class T>
-        T FromStringImpl(const std::string& arg, const ::Chroma::Type<T>& t)
+        T FromStringImpl(const std::string& arg, const TypeIdentity<T>& t)
         {
             ::std::istringstream stream(arg);
 
@@ -36,7 +37,7 @@ namespace Chroma
             return toReturn;
         }
 
-        std::string FromStringImpl(const std::string& arg, const ::Chroma::Type<std::string>& t);
+        std::string FromStringImpl(const std::string& arg, const TypeIdentity<std::string>& t);
     }
 
     template<class T, typename ::std::enable_if<!::std::is_enum<T>::value, int>::type = 0>
