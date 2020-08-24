@@ -12,7 +12,7 @@ namespace Chroma
     FileName::FileName(const char* buf) : value(buf), extension(GetFileExtension(buf))
     {}
 
-    FileName::FileName(const FilePath& path) : value(path.GetFileName()), extension(path.GetExtension())
+    FileName::FileName(const FilePath& path) : value(path.GetFileName().GetValue()), extension(path.GetExtension())
     {}
 
     FileName::FileName(const FileName& arg) : value(arg.value), extension(arg.extension)

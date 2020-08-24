@@ -20,9 +20,9 @@ namespace Chroma
         bool operator==(const EventConnection& arg) const;
         bool operator!=(const EventConnection& arg) const;
 
-        void Execute(Args && ... args);
+        void Execute(Args&& ... args);
         void Sever();
-        bool IsValid() const;
+        [[nodiscard]] bool IsValid() const;
     private:
         using iterator = typename EventT::iterator;
 
@@ -37,11 +37,13 @@ namespace Chroma
     };
 
     template<class... Args>
-    EventConnection<Args...>::EventConnection(const EventConnection& arg) : itr(arg.itr), owner(arg.owner), connectionItr(arg.connectionItr)
+    EventConnection<Args...>::EventConnection(const EventConnection& arg) :
+        itr(arg.itr), owner(arg.owner), connectionItr(arg.connectionItr)
     {}
 
     template<class... Args>
-    EventConnection<Args...>::EventConnection(EventConnection&& arg) noexcept : itr(std::move(arg.itr)), owner(std::move(arg.owner)), connectionItr(std::move(arg.connectionItr))
+    EventConnection<Args...>::EventConnection(EventConnection&& arg) noexcept :
+        itr(std::move(arg.itr)), owner(std::move(arg.owner)), connectionItr(std::move(arg.connectionItr))
     {}
 
     template<class... Args>
@@ -104,6 +106,7 @@ namespace Chroma
     }
 
     template<class... Args>
-    EventConnection<Args...>::EventConnection(iterator itr, EventT& owner) : itr(new iterator(itr)), owner(new EventT*(&owner))
+    EventConnection<Args...>::EventConnection(iterator itr, EventT& owner) :
+        itr(new iterator(itr)), owner(new EventT*(&owner))
     {}
 }

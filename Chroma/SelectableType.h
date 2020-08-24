@@ -3,7 +3,7 @@
 #include <typeindex>
 
 #include "VariadicTemplate.h"
-#include "Type.h"
+#include "TypeIdentity.h"
 
 namespace Chroma
 {
@@ -23,7 +23,7 @@ namespace Chroma
     public:
         SelectableType();
         template<class T>
-        SelectableType(Type<T>);
+        SelectableType(TypeIdentity<T>);
         SelectableType(ID id);
         SelectableType(const SelectableType& arg);
         SelectableType(SelectableType&& arg);
@@ -136,7 +136,7 @@ namespace Chroma
 
     template<class... Args>
     template<class T>
-    SelectableType<Args...>::SelectableType(Type<T>) : typeIndex(TypeOf<T>())
+    SelectableType<Args...>::SelectableType(TypeIdentity<T>) : typeIndex(TypeOf<T>())
     {
         AssertTypeIn<T>();
     }

@@ -9,6 +9,9 @@ namespace Chroma
 {
     using VariadicTemplateSize = size_t;
 
+    struct NonExistent
+    {};
+
     template<class... Args>
     class VariadicTemplate
     {
@@ -160,20 +163,81 @@ namespace Chroma
         public:
             static constexpr bool value = TypeStep<count>::result;
         };
+
+        template<template<class> class Predicate>
+        class Filter
+        {
+        private:
+            template<VariadicTemplateSize index, class... DecidedTypes>
+            struct TypeStep
+            {
+                using PieceType = typename Parameter<index - 1>::Type;
+                static constexpr bool passes = Predicate<PieceType>::value;
+                using Types = std::conditional_t<
+                    passes,
+                    typename TypeStep<index - 1, DecidedTypes..., PieceType>::Types,
+                    typename TypeStep<index - 1, DecidedTypes...>::Types>;
+            };
+
+            template<class... DecidedTypes>
+            struct TypeStep<0, DecidedTypes...>
+            {
+                using Types = VariadicTemplate<DecidedTypes...>;
+            };
+        public:
+            using Types = typename TypeStep<count>::Types;
+        };
+
+        template<template<class> class Predicate>
+        using filter = typename Filter<Predicate>::Types;
+
+        template<class T, VariadicTemplateSize Index>
+        struct FilterWithIndicesResult
+        {
+            using Type = T;
+            static constexpr bool index = Index;
+        };
+
+        template<template<class> class Predicate>
+        class FilterWithIndices
+        {
+        private:
+            template<VariadicTemplateSize index, class... DecidedTypes>
+            struct TypeStep
+            {
+                using PieceType = typename Parameter<index - 1>::Type;
+                static constexpr bool passes = Predicate<PieceType>::value;
+                using Types = std::conditional_t<
+                    passes,
+                    typename TypeStep<index - 1, DecidedTypes..., FilterWithIndicesResult<PieceType, index - 1>>::Types,
+                    typename TypeStep<index - 1, DecidedTypes...>::Types>;
+            };
+
+            template<class... DecidedTypes>
+            struct TypeStep<0, DecidedTypes...>
+            {
+                using Types = VariadicTemplate<DecidedTypes...>;
+            };
+        public:
+            using Types = typename TypeStep<count>::Types;
+        };
+
+        template<template<class> class Predicate>
+        using filter_with_indices = typename FilterWithIndices<Predicate>::Types;
     };
 
     template<class... Args>
     template<class... PassArgs>
-    constexpr typename VariadicTemplate<Args...>::TupleT VariadicTemplate<Args...>::CreateTuple(
-        PassArgs && ... pass) noexcept
+    constexpr auto VariadicTemplate<Args...>::CreateTuple(PassArgs && ... pass) noexcept
+        -> TupleT
     {
         return TupleT(std::forward<PassArgs>(pass)...);
     }
 
     template<class... Args>
     template<class ParameterT, class... PassArgs>
-    constexpr typename VariadicTemplate<Args...>::ArrayT<ParameterT> VariadicTemplate<Args...>::CreateArray(
-        PassArgs && ... pass) noexcept
+    constexpr auto VariadicTemplate<Args...>::CreateArray(PassArgs && ... pass) noexcept
+        -> ArrayT<ParameterT>
     {
         return ArrayT<ParameterT>({ pass... });
     }

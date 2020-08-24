@@ -2,7 +2,7 @@
 
 #include "EventConnection.h"
 
-#include "Assert.h"
+#include <assert.h>
 
 namespace Chroma
 {
