@@ -26,10 +26,10 @@ namespace Chroma
     template<class T, class... Args>
     static constexpr bool is_braces_constructible_v = is_braces_constructible<T, Args...>::value;
 
-    template<class T, class... Args>
-    struct is_braces_default_constructible : decltype(is_braces_constructible<T>(0))
+    template<class T>
+    struct is_braces_default_constructible : is_braces_constructible<T>
     {};
 
-    template<class T, class... Args>
+    template<class T>
     static constexpr bool is_braces_default_constructible_v = is_braces_constructible<T>::value;
 }

@@ -24,6 +24,7 @@ namespace Chroma
     std::string Trim(const std::string& trim);
     bool IsAllWhitespace(const std::string& check);
     bool StartsWith(const std::string& check, const std::string& startsWith);
+    bool EndsWith(const std::string& check, const std::string& endsWith);
     template<class T>
     std::string Join(std::string joiner, T begin, T end)
     {
