@@ -108,6 +108,11 @@ namespace Chroma
         return instances;
     }
 
+    bool Contains(const std::string& input, const std::string& of)
+    {
+        return CountInstances(input, of) > 0;
+    }
+
     void SpliceString(std::string& in, const std::string& check, const std::string& replace)
     {
         auto pos = in.find(check);
@@ -132,6 +137,9 @@ namespace Chroma
 
     std::string Trim(const std::string& trim)
     {
+        if (trim.empty())
+            return trim;
+
         std::string ret = trim;
 
         while (ret[ret.size() - 1] == ' ' || ret[ret.size() - 1] == '\n')
