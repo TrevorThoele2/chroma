@@ -9,12 +9,6 @@
 
 namespace Chroma
 {
-    std::string GetFileName(const std::string& filePath);
-    std::string GetFileExtension(const std::string& filePath);
-    std::string RemoveFileExtension(const std::string& string);
-    std::string RemoveFileName(const std::string& string);
-    std::string ReplaceFileExtension(const std::string& string, const std::string& extension);
-
     std::string ReplaceString(const std::string& string, const std::string& instance, const std::string& with);
 
     [[nodiscard]] size_t CountInstances(const std::string& input, const std::string& of);

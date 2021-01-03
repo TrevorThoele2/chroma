@@ -3,77 +3,8 @@
 #include <locale>
 #include <codecvt>
 
-#include "FilePath.h"
-
 namespace Chroma
 {
-    std::string GetFileName(const std::string& filePath)
-    {
-        std::string newString = filePath;
-        if (newString.find(FilePath::fileSeparator) != newString.npos)
-        {
-            // Slice the file path to just its file name
-            auto pos = newString.find_last_of(FilePath::fileSeparator) + 1;
-            newString = newString.substr(pos);
-        }
-
-        return newString;
-    }
-
-    std::string GetFileExtension(const std::string& filePath)
-    {
-        std::string newString = filePath;
-        if (newString.find(".") != newString.npos)
-        {
-            // Slice the file path to just its file name
-            auto pos = newString.find_last_of(".") + 1;
-            return newString.substr(pos);
-        }
-
-        return newString;
-    }
-
-    std::string RemoveFileExtension(const std::string& string)
-    {
-        std::string newString = string;
-        if (newString.find(".") != newString.npos)
-        {
-            // Slice the file extension off
-            auto pos = newString.find_last_of(".");
-            newString.erase(pos);
-        }
-
-        return newString;
-    }
-
-    std::string RemoveFileName(const std::string& string)
-    {
-        std::string newString = string;
-        if (newString.find(".") != newString.npos)
-        {
-            // Slice the file extension off
-            auto pos = newString.find_last_of(FilePath::fileSeparator);
-            newString.erase(pos);
-        }
-
-        return newString;
-    }
-
-    std::string ReplaceFileExtension(const std::string& string, const std::string& extension)
-    {
-        std::string newString = string;
-        if (newString.find(".") != newString.npos)
-        {
-            // Slice the file extension off
-            auto pos = newString.find_last_of(".");
-            newString.replace(pos + 1, std::string::npos, extension);
-        }
-        else
-            newString.append('.' + extension);
-
-        return newString;
-    }
-
     std::string ReplaceString(const std::string& string, const std::string& instance, const std::string& with)
     {
         const auto instanceSize = instance.size();

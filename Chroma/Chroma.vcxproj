@@ -139,8 +139,6 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventObject.h" />
     <ClInclude Include="EventConnection.h" />
-    <ClInclude Include="FileName.h" />
-    <ClInclude Include="FilePath.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionTraits.h" />
@@ -156,7 +154,6 @@
     <ClInclude Include="ParameterIndex.h" />
     <ClInclude Include="ParameterPack.h" />
     <ClInclude Include="RangeSize.h" />
-    <ClInclude Include="RelativeFilePath.h" />
     <ClInclude Include="ScopedEventConnection.h" />
     <ClInclude Include="SelectableType.h" />
     <ClInclude Include="StdFunction.h" />
@@ -170,9 +167,6 @@
     <ClInclude Include="VectorUtility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FileName.cpp" />
-    <ClCompile Include="FilePath.cpp" />
-    <ClCompile Include="RelativeFilePath.cpp" />
     <ClCompile Include="ScopedEventConnection.cpp" />
     <ClCompile Include="StringUtility.cpp" />
   </ItemGroup>
