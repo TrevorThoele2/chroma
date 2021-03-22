@@ -9,6 +9,8 @@
 
 namespace Chroma
 {
+    std::string ToUppercase(const std::string& string);
+
     std::string ReplaceString(const std::string& string, const std::string& instance, const std::string& with);
 
     [[nodiscard]] size_t CountInstances(const std::string& input, const std::string& of);

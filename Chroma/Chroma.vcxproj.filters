@@ -109,6 +109,9 @@
     <ClInclude Include="NameValuePair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Overloaded.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
