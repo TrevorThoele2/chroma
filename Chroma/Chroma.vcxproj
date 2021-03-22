@@ -46,7 +46,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -100,6 +100,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -134,6 +135,7 @@
     <ClInclude Include="Contract.h" />
     <ClInclude Include="Bind.h" />
     <ClInclude Include="ClassPath.h" />
+    <ClInclude Include="DetailedException.h" />
     <ClInclude Include="DiscoverNonType.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="Event.h" />
@@ -149,8 +151,9 @@
     <ClInclude Include="IsBracesConstructible.h" />
     <ClInclude Include="IsComplete.h" />
     <ClInclude Include="Iterate.h" />
-    <ClInclude Include="Math.h" />
+    <ClInclude Include="MathUtility.h" />
     <ClInclude Include="MemberTraits.h" />
+    <ClInclude Include="NameValuePair.h" />
     <ClInclude Include="ParameterIndex.h" />
     <ClInclude Include="ParameterPack.h" />
     <ClInclude Include="RangeSize.h" />
@@ -167,6 +170,8 @@
     <ClInclude Include="VectorUtility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DetailedException.cpp" />
+    <ClCompile Include="NameValuePair.cpp" />
     <ClCompile Include="ScopedEventConnection.cpp" />
     <ClCompile Include="StringUtility.cpp" />
   </ItemGroup>
