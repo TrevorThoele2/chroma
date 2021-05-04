@@ -222,7 +222,7 @@ namespace Chroma
     }
 
     template<class... Args>
-    typename const SelectableType<Args...>::TypeIndex& SelectableType<Args...>::Selected() const
+    const typename SelectableType<Args...>::TypeIndex& SelectableType<Args...>::Selected() const
     {
         return typeIndex;
     }
