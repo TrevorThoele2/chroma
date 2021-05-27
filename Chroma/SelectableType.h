@@ -26,10 +26,10 @@ namespace Chroma
         SelectableType(TypeIdentity<T>);
         SelectableType(ID id);
         SelectableType(const SelectableType& arg);
-        SelectableType(SelectableType&& arg);
+        SelectableType(SelectableType&& arg) noexcept;
 
         SelectableType& operator=(const SelectableType& arg);
-        SelectableType& operator=(SelectableType&& arg);
+        SelectableType& operator=(SelectableType&& arg) noexcept;
 
         bool operator==(const SelectableType& arg) const;
         bool operator!=(const SelectableType& arg) const;
@@ -40,12 +40,12 @@ namespace Chroma
         void Unselect();
 
         template<class T>
-        bool Is() const;
-        bool Is(ID id) const;
-        bool HasSelected() const;
+        [[nodiscard]] bool Is() const;
+        [[nodiscard]] bool Is(ID id) const;
+        [[nodiscard]] bool HasSelected() const;
 
-        const TypeIndex& Selected() const;
-        ID SelectedAsID() const;
+        [[nodiscard]] const TypeIndex& Selected() const;
+        [[nodiscard]] ID SelectedAsID() const;
     private:
         TypeIndex typeIndex;
     private:
@@ -150,7 +150,7 @@ namespace Chroma
     {}
 
     template<class... Args>
-    SelectableType<Args...>::SelectableType(SelectableType&& arg) : typeIndex(std::move(arg.typeIndex))
+    SelectableType<Args...>::SelectableType(SelectableType&& arg) noexcept : typeIndex(std::move(arg.typeIndex))
     {}
 
     template<class... Args>
@@ -161,7 +161,7 @@ namespace Chroma
     }
 
     template<class... Args>
-    SelectableType<Args...>& SelectableType<Args...>::operator=(SelectableType&& arg)
+    SelectableType<Args...>& SelectableType<Args...>::operator=(SelectableType&& arg) noexcept
     {
         typeIndex = std::move(arg.typeIndex);
         return *this;

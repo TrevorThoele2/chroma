@@ -20,10 +20,10 @@ namespace Chroma
     public:
         Event();
         Event(const Event &arg);
-        Event(Event &&arg);
+        Event(Event &&arg) noexcept;
         ~Event();
         Event& operator=(const Event &arg);
-        Event& operator=(Event &&arg);
+        Event& operator=(Event &&arg) noexcept;
 
         void operator()(Args ... args);
         void Execute(Args ... args);
@@ -39,7 +39,7 @@ namespace Chroma
 
         void Remove(Connection& remove);
         void Clear();
-        bool IsEmpty() const;
+        [[nodiscard]] bool IsEmpty() const;
     private:
         using Slots = std::list<FunctionT>;
         using iterator = typename Slots::iterator;
@@ -53,7 +53,7 @@ namespace Chroma
         Connections connections;
 
         // Finds the offset of the next iterator
-        size_t FindNextOffset() const;
+        [[nodiscard]] size_t FindNextOffset() const;
         // Sets the next iterator by an offset from the beginning of the list
         void SkipNext(size_t offset);
 
@@ -76,7 +76,7 @@ namespace Chroma
     }
 
     template<class... Args>
-    Event<Args...>::Event(Event &&arg) : slots(std::move(arg.slots))
+    Event<Args...>::Event(Event &&arg) noexcept : slots(std::move(arg.slots))
     {
         next = slots.end();
         SetupConnectionsMove(std::move(arg));
@@ -104,7 +104,7 @@ namespace Chroma
     }
 
     template<class... Args>
-    Event<Args...>& Event<Args...>::operator=(Event &&arg)
+    Event<Args...>& Event<Args...>::operator=(Event &&arg) noexcept
     {
         const size_t endID = arg.FindNextOffset();
         slots = std::move(arg.slots);

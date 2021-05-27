@@ -56,7 +56,7 @@ namespace Chroma
     {
         auto pos = in.find(check);
 
-        while (pos != in.npos)
+        while (pos != std::string::npos)
         {
             in.erase(pos, check.size());
             in.insert(pos, replace);

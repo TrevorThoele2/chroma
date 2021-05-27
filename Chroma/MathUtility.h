@@ -40,6 +40,6 @@ namespace Chroma
 	template<class Left, class Right, Left left, Right right>
 	constexpr Left CompilePower()
 	{
-		return detail::CompilePower<Left, Right, left>::value<right>;
+		return detail::CompilePower<Left, Right, left>::template value<right>;
 	}
 }

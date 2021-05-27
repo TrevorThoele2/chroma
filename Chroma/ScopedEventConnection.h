@@ -15,11 +15,11 @@ namespace Chroma
         template<class... Args>
         ScopedEventConnection(EventConnection<Args...>&& wrapped);
         ScopedEventConnection(const ScopedEventConnection& arg);
-        ScopedEventConnection(ScopedEventConnection&& arg);
+        ScopedEventConnection(ScopedEventConnection&& arg) noexcept;
         ~ScopedEventConnection();
 
         ScopedEventConnection& operator=(const ScopedEventConnection& arg);
-        ScopedEventConnection& operator=(ScopedEventConnection&& arg);
+        ScopedEventConnection& operator=(ScopedEventConnection&& arg) noexcept;
 
         bool operator==(const ScopedEventConnection& arg) const;
         bool operator!=(const ScopedEventConnection& arg) const;
@@ -36,21 +36,21 @@ namespace Chroma
         // Removes slot from event
         void Sever();
 
-        bool IsValid() const;
+        [[nodiscard]] bool IsValid() const;
     private:
         class Base
         {
         public:
             virtual ~Base() = 0;
 
-            virtual Base* Clone() const = 0;
+            [[nodiscard]] virtual Base* Clone() const = 0;
 
             virtual void Sever() = 0;
-            virtual bool IsValid() const = 0;
+            [[nodiscard]] virtual bool IsValid() const = 0;
         };
 
         template<class... Args>
-        class Derived : public Base
+        class Derived final : public Base
         {
         public:
             using Wrapped = typename Event<Args...>::Connection;
@@ -63,7 +63,7 @@ namespace Chroma
             Derived* Clone() const override;
 
             void Sever() override;
-            bool IsValid() const override;
+            [[nodiscard]] bool IsValid() const override;
         };
     private:
         std::unique_ptr<Base> base;

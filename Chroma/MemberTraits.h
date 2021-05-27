@@ -6,7 +6,7 @@ namespace Chroma
     struct MemberTraits;
 
     template<class Value, class Object>
-    struct MemberTraits<Value(Object::*)>
+    struct MemberTraits<Value Object::*>
     {
         using ValueT = Value;
         using ObjectT = Object;
