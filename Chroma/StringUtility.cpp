@@ -33,20 +33,6 @@ namespace Chroma
         return output;
     }
 
-    size_t CountInstances(const std::string& input, const std::string& of)
-    {
-        size_t instances = 0;
-        const auto instanceSize = of.size();
-        for (size_t i = 0; i < input.size(); ++i)
-        {
-            const auto substring = input.substr(i, instanceSize);
-            if (substring == of)
-                ++instances;
-        }
-
-        return instances;
-    }
-
     bool Contains(const std::string& input, const std::string& of)
     {
         return CountInstances(input, of) > 0;
@@ -122,33 +108,6 @@ namespace Chroma
 
         const auto subString = check.substr(check.size() - endsWith.size(), endsWith.size());
         return subString == endsWith;
-    }
-
-    std::vector<std::string> Split(const std::string& string, const std::string& splitter)
-    {
-        if (string.empty())
-            return {};
-
-        auto manipulateString = string;
-        auto splitterPosition = manipulateString.find(splitter);
-        if (splitterPosition == std::string::npos)
-            return { manipulateString };
-
-        std::vector<std::string> returnValue;
-
-        while(splitterPosition != std::string::npos)
-        {
-            auto substr = manipulateString.substr(0, splitterPosition);
-            if(!substr.empty())
-                returnValue.push_back(substr);
-            manipulateString.erase(0, splitterPosition + splitter.size());
-            splitterPosition = manipulateString.find(splitter);
-        }
-
-        if (!manipulateString.empty())
-            returnValue.push_back(manipulateString);
-
-        return returnValue;
     }
 
     namespace detail

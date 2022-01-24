@@ -13,7 +13,21 @@ namespace Chroma
 
     std::string ReplaceString(const std::string& string, const std::string& instance, const std::string& with);
 
-    [[nodiscard]] size_t CountInstances(const std::string& input, const std::string& of);
+    template<class String>
+    [[nodiscard]] size_t CountInstances(const String& input, const String& of)
+    {
+        size_t instances = 0;
+        const auto instanceSize = of.size();
+        for (size_t i = 0; i < input.size(); ++i)
+        {
+            const auto substring = input.substr(i, instanceSize);
+            if (substring == of)
+                ++instances;
+        }
+
+        return instances;
+    }
+
     [[nodiscard]] bool Contains(const std::string& input, const std::string& of);
 
     void SpliceString(std::string& in, const std::string& check, const std::string& replace);
@@ -46,7 +60,34 @@ namespace Chroma
         return Join("", begin, end);
     }
 
-    std::vector<std::string> Split(const std::string& manipulateString, const std::string& splitter);
+    template<class String>
+    std::vector<String> Split(const String& string, const String& splitter)
+    {
+        if (string.empty())
+            return {};
+
+        auto manipulateString = string;
+        auto splitterPosition = manipulateString.find(splitter);
+        if (splitterPosition == String::npos)
+            return { manipulateString };
+
+        std::vector<String> returnValue;
+        returnValue.reserve(CountInstances(string, splitter));
+
+        while (splitterPosition != String::npos)
+        {
+            auto substr = manipulateString.substr(0, splitterPosition);
+            if (!substr.empty())
+                returnValue.push_back(substr);
+            manipulateString.erase(0, splitterPosition + splitter.size());
+            splitterPosition = manipulateString.find(splitter);
+        }
+
+        if (!manipulateString.empty())
+            returnValue.push_back(manipulateString);
+
+        return returnValue;
+    }
 
     template<class T>
     void SpliceString(std::string& in, const std::string& check, const T replace)
