@@ -154,6 +154,7 @@
     <ClInclude Include="MathUtility.h" />
     <ClInclude Include="MemberTraits.h" />
     <ClInclude Include="NameValuePair.h" />
+    <ClInclude Include="Overloaded.h" />
     <ClInclude Include="ParameterIndex.h" />
     <ClInclude Include="ParameterPack.h" />
     <ClInclude Include="RangeSize.h" />

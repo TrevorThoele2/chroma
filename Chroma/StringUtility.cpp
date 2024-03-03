@@ -5,6 +5,14 @@
 
 namespace Chroma
 {
+    std::string ToUppercase(const std::string& string)
+    {
+        std::string output;
+        for (auto character : string)
+            output += std::toupper(character);
+        return output;
+    }
+
     std::string ReplaceString(const std::string& string, const std::string& instance, const std::string& with)
     {
         const auto instanceSize = instance.size();
