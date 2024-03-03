@@ -14,9 +14,9 @@ namespace Chroma
     public:
         EventConnection() = default;
         EventConnection(const EventConnection& arg);
-        EventConnection(EventConnection&& arg);
+        EventConnection(EventConnection&& arg) noexcept;
         EventConnection& operator=(const EventConnection& arg);
-        EventConnection& operator=(EventConnection&& arg);
+        EventConnection& operator=(EventConnection&& arg) noexcept;
         bool operator==(const EventConnection& arg) const;
         bool operator!=(const EventConnection& arg) const;
 
@@ -41,11 +41,11 @@ namespace Chroma
     {}
 
     template<class... Args>
-    EventConnection<Args...>::EventConnection(EventConnection&& arg) : itr(std::move(arg.itr)), owner(std::move(arg.owner)), connectionItr(std::move(arg.connectionItr))
+    EventConnection<Args...>::EventConnection(EventConnection&& arg) noexcept : itr(std::move(arg.itr)), owner(std::move(arg.owner)), connectionItr(std::move(arg.connectionItr))
     {}
 
     template<class... Args>
-    typename EventConnection<Args...>& EventConnection<Args...>::operator=(const EventConnection& arg)
+    EventConnection<Args...>& EventConnection<Args...>::operator=(const EventConnection& arg)
     {
         itr = arg.itr;
         owner = arg.owner;
@@ -54,7 +54,7 @@ namespace Chroma
     }
 
     template<class... Args>
-    typename EventConnection<Args...>& EventConnection<Args...>::operator=(EventConnection&& arg)
+    EventConnection<Args...>& EventConnection<Args...>::operator=(EventConnection&& arg) noexcept
     {
         itr = std::move(arg.itr);
         arg.itr.reset(new iterator((*arg.owner)->slots.end()));

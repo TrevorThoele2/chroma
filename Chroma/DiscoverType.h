@@ -1,14 +1,9 @@
 #pragma once
 
-#include <tuple>
 #include "ParameterIndex.h"
 
 namespace Chroma
 {
-    template<class T>
-    struct Type
-    {};
-
     template<ParameterIndex index, class... Args>
     class DiscoverType
     {

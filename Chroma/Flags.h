@@ -6,7 +6,7 @@
 namespace Chroma
 {
     // Flags given should be 1, 2, 3, 4, etc.
-    // These represent the bit position
+    // These represent the bit jumpPosition
     template<class EnumT>
     class Flags
     {

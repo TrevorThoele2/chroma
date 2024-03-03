@@ -3,7 +3,7 @@
 #include <tuple>
 #include <array>
 
-#include "Type.h"
+#include "DiscoverType.h"
 
 namespace Chroma
 {
@@ -78,23 +78,63 @@ namespace Chroma
         {
         private:
             template<VariadicTemplateSize index>
-            struct TypeStep
+            struct Step
             {
                 using PieceType = typename Parameter<index - 1>::Type;
                 static constexpr bool areTypesSame = std::is_same<T, PieceType>::value;
-                // Check if types are the same - if they are, just return true, otherwise check lower down
-                static constexpr bool result = (areTypesSame) ? true : TypeStep<index - 1>::result;
+                static constexpr bool result = areTypesSame ? true : Step<index - 1>::result;
             };
 
             template<>
-            struct TypeStep<0>
+            struct Step<0>
             {
                 using PieceType = typename Parameter<0>::Type;
                 static constexpr bool areTypesSame = std::is_same<T, PieceType>::value;
-                static constexpr bool result = (areTypesSame) ? true : false;
+                static constexpr bool result = areTypesSame ? true : false;
             };
         public:
-            static constexpr bool value = TypeStep<count>::result;
+            static constexpr bool value = Step<count>::result;
+        };
+
+        template<class T>
+        class TypeCount
+        {
+        private:
+            template<VariadicTemplateSize index>
+            struct Step
+            {
+                using PieceType = typename Parameter<index - 1>::Type;
+                static constexpr bool areTypesSame = std::is_same<T, PieceType>::value;
+                static constexpr VariadicTemplateSize result = areTypesSame ? Step<index - 1>::result + 1 : Step<index - 1>::result;
+            };
+
+            template<>
+            struct Step<0>
+            {
+                static constexpr VariadicTemplateSize result = 0;
+            };
+        public:
+            static constexpr VariadicTemplateSize value = Step<count>::result;
+        };
+
+        class AllUnique
+        {
+        private:
+            template<VariadicTemplateSize index>
+            struct Step
+            {
+                using PieceType = typename Parameter<index - 1>::Type;
+                static constexpr VariadicTemplateSize count = TypeCount<PieceType>::value;
+                static constexpr VariadicTemplateSize result = count > 1 ? false : Step<index - 1>::result;
+            };
+
+            template<>
+            struct Step<0>
+            {
+                static constexpr VariadicTemplateSize result = true;
+            };
+        public:
+            static constexpr bool value = Step<count>::result;
         };
 
         template<class T>
@@ -124,7 +164,7 @@ namespace Chroma
 
     template<class... Args>
     template<class... PassArgs>
-    typename constexpr VariadicTemplate<Args...>::TupleT VariadicTemplate<Args...>::CreateTuple(
+    constexpr typename VariadicTemplate<Args...>::TupleT VariadicTemplate<Args...>::CreateTuple(
         PassArgs && ... pass) noexcept
     {
         return TupleT(std::forward<PassArgs>(pass)...);
@@ -132,7 +172,7 @@ namespace Chroma
 
     template<class... Args>
     template<class ParameterT, class... PassArgs>
-    typename constexpr VariadicTemplate<Args...>::ArrayT<ParameterT> VariadicTemplate<Args...>::CreateArray(
+    constexpr typename VariadicTemplate<Args...>::ArrayT<ParameterT> VariadicTemplate<Args...>::CreateArray(
         PassArgs && ... pass) noexcept
     {
         return ArrayT<ParameterT>({ pass... });

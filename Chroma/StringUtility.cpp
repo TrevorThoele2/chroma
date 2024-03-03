@@ -132,7 +132,7 @@ namespace Chroma
 
     namespace detail
     {
-        std::string FromStringImpl(const std::string& arg, const ::Chroma::Type<std::string>& t)
+        std::string FromStringImpl(const std::string& arg, const TypeIdentity<std::string>& t)
         {
             return arg;
         }
