@@ -22,7 +22,7 @@ namespace Chroma
                 InvokeImplementation<index - 1>::Do(
                     function,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -34,7 +34,7 @@ namespace Chroma
                     function,
                     obj,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -46,7 +46,7 @@ namespace Chroma
                     function,
                     obj,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -81,7 +81,7 @@ namespace Chroma
                 InvokeImplementation<index - 1>::Do(
                     function,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -93,7 +93,7 @@ namespace Chroma
                     function,
                     obj,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -105,7 +105,7 @@ namespace Chroma
                     function,
                     obj,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -115,7 +115,7 @@ namespace Chroma
             {
                 return InvokeImplementation<index - 1>::template Do<Obj>(
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -125,7 +125,7 @@ namespace Chroma
             {
                 return InvokeImplementation<index - 1>::template DoHeap<Obj>(
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
         };
@@ -254,7 +254,7 @@ namespace Chroma
                 return InvokeImplementationReturn<index - 1>::Do(
                     function,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -266,7 +266,7 @@ namespace Chroma
                     function,
                     obj,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -278,7 +278,7 @@ namespace Chroma
                     function,
                     obj,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -289,7 +289,7 @@ namespace Chroma
                 return InvokeImplementationReturn<index - 1>::Do(
                     function,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -301,7 +301,7 @@ namespace Chroma
                     function,
                     obj,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
 
@@ -313,7 +313,7 @@ namespace Chroma
                     function,
                     obj,
                     args,
-                    std::forward<std::tuple_element<index - 1, std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
+                    std::forward<std::tuple_element<index - 1, typename std::remove_reference<decltype(args)>::type>::type>(std::get<index - 1>(args)),
                     std::forward<HolderArgs>(holder)...);
             }
         };

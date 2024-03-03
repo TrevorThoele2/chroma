@@ -5,7 +5,7 @@ namespace Chroma
     ScopedEventConnection::ScopedEventConnection(const ScopedEventConnection& arg) : base((arg.base) ? arg.base->Clone() : nullptr)
     {}
 
-    ScopedEventConnection::ScopedEventConnection(ScopedEventConnection&& arg) : base(std::move(arg.base))
+    ScopedEventConnection::ScopedEventConnection(ScopedEventConnection&& arg) noexcept : base(std::move(arg.base))
     {}
 
     ScopedEventConnection::~ScopedEventConnection()
@@ -20,7 +20,7 @@ namespace Chroma
         return *this;
     }
 
-    ScopedEventConnection& ScopedEventConnection::operator=(ScopedEventConnection&& arg)
+    ScopedEventConnection& ScopedEventConnection::operator=(ScopedEventConnection&& arg) noexcept
     {
         base = std::move(arg.base);
         return *this;
@@ -52,9 +52,8 @@ namespace Chroma
 
     bool ScopedEventConnection::IsValid() const
     {
-        return base.get() != nullptr && base->IsValid();
+        return base && base->IsValid();
     }
 
-    ScopedEventConnection::Base::~Base()
-    {}
+    ScopedEventConnection::Base::~Base() = default;
 }

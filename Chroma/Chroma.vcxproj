@@ -136,14 +136,12 @@
   <ItemGroup>
     <ClInclude Include="Contract.h" />
     <ClInclude Include="Bind.h" />
-    <ClInclude Include="ClassPath.h" />
     <ClInclude Include="DetailedException.h" />
     <ClInclude Include="DiscoverNonType.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventObject.h" />
     <ClInclude Include="EventConnection.h" />
-    <ClInclude Include="Flags.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionTraits.h" />
     <ClInclude Include="Generator.h" />
@@ -164,7 +162,6 @@
     <ClInclude Include="SelectableType.h" />
     <ClInclude Include="StdFunction.h" />
     <ClInclude Include="StringUtility.h" />
-    <ClInclude Include="Switch.h" />
     <ClInclude Include="DiscoverType.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TypeIdentity.h" />

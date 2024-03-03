@@ -4,9 +4,6 @@
     <ClInclude Include="Bind.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
-    <ClInclude Include="ClassPath.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
     <ClInclude Include="Enum.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
@@ -46,16 +43,10 @@
     <ClInclude Include="StdFunction.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
-    <ClInclude Include="Switch.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
     <ClInclude Include="VariadicTemplate.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
     <ClInclude Include="StringUtility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Flags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
