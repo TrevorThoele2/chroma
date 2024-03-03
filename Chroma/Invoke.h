@@ -334,7 +334,7 @@ namespace Chroma
             static Ret Do(Ret(Obj::*function)(Args...), Obj& obj, std::tuple<TupleArgs...>& args, HolderArgs&& ... holder)
             {
                 static_assert(sizeof...(Args) == sizeof...(TupleArgs), "The argument pack must be exactly the same size as the size of the tuple.");
-                return (obj.function)(std::forward<HolderArgs>(holder)...);
+                return (obj.*function)(std::forward<HolderArgs>(holder)...);
             }
 
             // CONST FUNCTOR, TUPLE
@@ -342,7 +342,7 @@ namespace Chroma
             static Ret Do(Ret(Obj::*function)(Args...) const, const Obj& obj, std::tuple<TupleArgs...>& args, HolderArgs&& ... holder)
             {
                 static_assert(sizeof...(Args) == sizeof...(TupleArgs), "The argument pack must be exactly the same size as the size of the tuple.");
-                return (obj.function)(std::forward<HolderArgs>(holder)...);
+                return (obj.*function)(std::forward<HolderArgs>(holder)...);
             }
 
             // FUNCTION, TUPLE

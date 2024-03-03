@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Type.h"
 #include "ParameterPack.h"
 #include "ParameterIndex.h"
 

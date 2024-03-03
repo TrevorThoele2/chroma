@@ -90,6 +90,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -144,9 +146,9 @@
     <ClInclude Include="Indices.h" />
     <ClInclude Include="Invoke.h" />
     <ClInclude Include="IsBracesConstructible.h" />
+    <ClInclude Include="IsComplete.h" />
     <ClInclude Include="Iterate.h" />
     <ClInclude Include="Math.h" />
-    <ClInclude Include="Optional.h" />
     <ClInclude Include="ParameterIndex.h" />
     <ClInclude Include="ParameterPack.h" />
     <ClInclude Include="RangeSize.h" />
@@ -159,16 +161,11 @@
     <ClInclude Include="DiscoverType.h" />
     <ClInclude Include="TypeIdentity.h" />
     <ClInclude Include="VariadicTemplate.h" />
-    <ClInclude Include="Variant.h" />
-    <ClInclude Include="VariantDetail.h" />
-    <ClInclude Include="VariantException.h" />
-    <ClInclude Include="VariantTraits.h" />
-    <ClInclude Include="Visit.h" />
+    <ClInclude Include="VectorUtility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileName.cpp" />
     <ClCompile Include="FilePath.cpp" />
-    <ClCompile Include="Optional.cpp" />
     <ClCompile Include="RelativeFilePath.cpp" />
     <ClCompile Include="ScopedEventConnection.cpp" />
     <ClCompile Include="StringUtility.cpp" />

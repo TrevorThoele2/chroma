@@ -52,21 +52,6 @@
     <ClInclude Include="VariadicTemplate.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
-    <ClInclude Include="Variant.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="VariantDetail.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="VariantException.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="VariantTraits.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="Visit.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
     <ClInclude Include="FilePath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -80,9 +65,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Flags.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Optional.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
@@ -107,6 +89,12 @@
       <Filter>Header Files\Template</Filter>
     </ClInclude>
     <ClInclude Include="TypeIdentity.h">
+      <Filter>Header Files\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IsComplete.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
   </ItemGroup>
@@ -138,9 +126,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StringUtility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Optional.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScopedEventConnection.cpp">

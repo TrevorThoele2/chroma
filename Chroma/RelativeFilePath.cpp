@@ -13,15 +13,15 @@ namespace Chroma
     {}
 
     RelativeFilePath::RelativeFilePath(const std::string& moveDown) :
-        moveDown(moveDown), extension(GetFileExtension(moveDown)), moveUp(0)
+        moveDown(moveDown), moveUp(0), extension(GetFileExtension(moveDown))
     {}
 
     RelativeFilePath::RelativeFilePath(const char* moveDown) :
-        moveDown(moveDown), extension(GetFileExtension(moveDown)), moveUp(0)
+        moveDown(moveDown), moveUp(0), extension(GetFileExtension(moveDown))
     {}
 
     RelativeFilePath::RelativeFilePath(size_t moveUp, const std::string& moveDown) :
-        moveUp(moveUp), moveDown(moveDown), extension(GetFileExtension(moveDown))
+        moveDown(moveDown), moveUp(moveUp), extension(GetFileExtension(moveDown))
     {}
 
     RelativeFilePath::RelativeFilePath(const FilePath& from, const FilePath& to) : moveUp(0)

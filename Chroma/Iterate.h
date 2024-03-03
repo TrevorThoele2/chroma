@@ -5,7 +5,6 @@
 #include <tuple>
 
 #include "VariadicTemplate.h"
-#include "Type.h"
 
 namespace Chroma
 {

@@ -41,8 +41,6 @@ namespace Chroma
         void Clear();
         bool IsEmpty() const;
     private:
-        friend class Connection;
-    private:
         using Slots = std::list<FunctionT>;
         using iterator = typename Slots::iterator;
         using const_iterator = typename Slots::const_iterator;
@@ -61,6 +59,9 @@ namespace Chroma
 
         void SetupConnectionsMove(Event &&arg);
         void SetupConnectionsCopy(const Event &arg);
+    private:
+        template<class... Args>
+        friend class EventConnection;
     };
 
     template<class... Args>

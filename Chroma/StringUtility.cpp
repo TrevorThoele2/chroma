@@ -1,5 +1,8 @@
 #include "StringUtility.h"
 
+#include <locale>
+#include <codecvt>
+
 #include "FilePath.h"
 
 namespace Chroma
@@ -71,6 +74,40 @@ namespace Chroma
         return newString;
     }
 
+    std::string ReplaceString(const std::string& string, const std::string& instance, const std::string& with)
+    {
+        const auto instanceSize = instance.size();
+        auto output = string;
+        for(size_t i = 0; i < output.size();)
+        {
+            const auto checkString = output.substr(i, instanceSize);
+            if (checkString != instance)
+            {
+                ++i;
+                continue;
+            }
+
+            output.replace(i, instanceSize, with);
+            i += with.size();
+        }
+
+        return output;
+    }
+
+    size_t CountInstances(const std::string& input, const std::string& of)
+    {
+        size_t instances = 0;
+        const auto instanceSize = of.size();
+        for (size_t i = 0; i < input.size(); ++i)
+        {
+            const auto substring = input.substr(i, instanceSize);
+            if (substring == of)
+                ++instances;
+        }
+
+        return instances;
+    }
+
     void SpliceString(std::string& in, const std::string& check, const std::string& replace)
     {
         auto pos = in.find(check);
@@ -128,6 +165,33 @@ namespace Chroma
     bool StartsWith(const std::string& check, const std::string& startsWith)
     {
         return check.find_first_of(startsWith) == 0;
+    }
+
+    std::vector<std::string> Split(const std::string& string, const std::string& splitter)
+    {
+        if (string == "")
+            return {};
+
+        auto manipulateString = string;
+        auto splitterInstance = manipulateString.find(splitter);
+        if (splitterInstance == std::string::npos)
+            return { manipulateString };
+
+        std::vector<std::string> returnValue;
+
+        while(splitterInstance != std::string::npos)
+        {
+            auto substr = manipulateString.substr(0, splitterInstance);
+            if(!substr.empty())
+                returnValue.push_back(substr);
+            manipulateString.erase(0, splitterInstance + splitter.size());
+            splitterInstance = manipulateString.find(splitter);
+        }
+
+        if (!manipulateString.empty())
+            returnValue.push_back(manipulateString);
+
+        return returnValue;
     }
 
     namespace detail
@@ -204,16 +268,26 @@ namespace Chroma
         return ToStringCharCommon(arg);
     }
 
+    std::string ToString(bool arg)
+    {
+        return arg
+            ? "true"
+            : "false";
+    }
+
     std::string ToString(const std::string& arg)
     {
         return arg;
     }
 
-    std::string ToString(bool arg)
+    std::string ToString(const std::wstring& arg)
     {
-        if (arg)
-            return "true";
-        else
-            return "false";
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+        return std::string(converter.to_bytes(arg));
+    }
+
+    std::string ToString(const std::filesystem::path& arg)
+    {
+        return ToString(std::wstring(arg));
     }
 }
