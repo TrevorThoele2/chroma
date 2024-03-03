@@ -2,7 +2,7 @@
 
 #include "VariadicTemplate.h"
 
-namespace function
+namespace Chroma
 {
     template<class... Args>
     using ParameterPack = VariadicTemplate<Args...>;

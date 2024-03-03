@@ -3,7 +3,7 @@
 #include <memory>
 #include "Type.h"
 
-namespace function
+namespace Chroma
 {
     class Any
     {

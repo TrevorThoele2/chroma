@@ -1,6 +1,6 @@
 #pragma once
 
-namespace function
+namespace Chroma
 {
     template<class EnumT, EnumT selector>
     struct StrategySelector {};

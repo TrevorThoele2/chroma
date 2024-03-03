@@ -10,7 +10,7 @@
 #include "Bind.h"
 #include "Any.h"
 
-namespace function
+namespace Chroma
 {
     template<ParameterIndex i>
     struct Placeholder

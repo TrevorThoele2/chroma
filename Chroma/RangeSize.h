@@ -1,6 +1,6 @@
 #pragma once
 
-namespace function
+namespace Chroma
 {
     typedef size_t RangeSize;
 }

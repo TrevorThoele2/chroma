@@ -8,7 +8,7 @@
 
 #include "RangeSize.h"
 
-namespace function
+namespace Chroma
 {
     namespace detail
     {

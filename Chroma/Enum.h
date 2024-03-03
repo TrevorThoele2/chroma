@@ -3,7 +3,7 @@
 #include <type_traits>
 #include <tuple>
 
-namespace function
+namespace Chroma
 {
     namespace detail
     {
