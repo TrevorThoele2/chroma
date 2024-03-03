@@ -11,12 +11,6 @@ namespace Chroma
 
     namespace detail
     {
-        template<class Variant, class Use>
-        class VariantSwitch;
-
-        struct NullT
-        {};
-
         template<class VariantT>
         class VariantIterationImplementation
         {
@@ -25,14 +19,16 @@ namespace Chroma
             typedef VariadicTemplateSize ID;
             static const ID count = VariadicTemplateT::count;
 
-            typedef std::type_index Type;
+            typedef typename VariantT::SelectedType SelectedType;
+
+            typedef std::type_index TypeIndex;
 
             template<VariadicTemplateSize index>
             struct IDStep
             {
                 typedef typename VariadicTemplateT::template Parameter<index - 1>::Type PieceType;
 
-                static Type GetCheckType()
+                static TypeIndex GetCheckType()
                 {
                     return typeid(PieceType);
                 }
@@ -45,12 +41,12 @@ namespace Chroma
                         return IDStep<index - 1>::GetID(var);
                 }
 
-                static Type GetTypeIndex(ID id)
+                static void Select(ID id, SelectedType& in)
                 {
-                    if (id == index - 1)
-                        return GetCheckType();
+                    if (id == (index - 1))
+                        in.template Select<PieceType>();
                     else
-                        return IDStep<index - 1>::GetTypeIndex(id);
+                        IDStep<index - 1>::Select(id, in);
                 }
             };
 
@@ -64,14 +60,14 @@ namespace Chroma
                     return 0;
                 }
 
-                static Type GetTypeIndex(ID id)
+                static void Select(ID id, SelectedType& in)
                 {
-                    return Type(typeid(PieceType));
+                    in.template Select<PieceType>();
                 }
             };
         public:
             static ID GetID(const VariantT& var) { return IDStep<count>::GetID(var); }
-            static Type GetTypeIndex(ID id) { return IDStep<count>::GetTypeIndex(id); }
+            static void Select(ID id, SelectedType& in) { return IDStep<count>::Select(id, in); }
         };
 
         enum class VariantVisitStrategy
@@ -97,7 +93,7 @@ namespace Chroma
             {
                 t.~T();
                 variant.bytes.clear();
-                variant.typeIndex = variant.NullType();
+                variant.selectedType.Unselect();
             }
 
             template<class T, class U>
