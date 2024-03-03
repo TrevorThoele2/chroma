@@ -132,6 +132,9 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventObject.h" />
     <ClInclude Include="EventConnection.h" />
+    <ClInclude Include="FileName.h" />
+    <ClInclude Include="FilePath.h" />
+    <ClInclude Include="Flags.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionTraits.h" />
     <ClInclude Include="Generator.h" />
@@ -142,8 +145,10 @@
     <ClInclude Include="ParameterIndex.h" />
     <ClInclude Include="ParameterPack.h" />
     <ClInclude Include="RangeSize.h" />
+    <ClInclude Include="RelativeFilePath.h" />
     <ClInclude Include="SelectableType.h" />
     <ClInclude Include="StdFunction.h" />
+    <ClInclude Include="StringUtility.h" />
     <ClInclude Include="Switch.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="VariadicTemplate.h" />
@@ -152,6 +157,12 @@
     <ClInclude Include="VariantException.h" />
     <ClInclude Include="VariantTraits.h" />
     <ClInclude Include="Visit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FileName.cpp" />
+    <ClCompile Include="FilePath.cpp" />
+    <ClCompile Include="RelativeFilePath.cpp" />
+    <ClCompile Include="StringUtility.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
