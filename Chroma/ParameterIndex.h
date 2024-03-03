@@ -2,5 +2,5 @@
 
 namespace Chroma
 {
-    typedef size_t ParameterIndex;
+    using ParameterIndex = size_t;
 }

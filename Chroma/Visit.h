@@ -13,13 +13,13 @@ namespace Chroma
         class VariantSwitch
         {
         private:
-            typedef typename VariantT::VariadicTemplateT VariadicTemplateT;
+            using VariadicTemplateT = typename VariantT::VariadicTemplateT;
         public:
             // Normal
             template<class... Args>
             static void Do(VariantT& variant, Args&& ... args)
             {
-                typedef Impl<VariantT::count> Impl;
+                using Impl = Impl<VariantT::count>;
                 Impl::Do(variant, std::forward<Args>(args)...);
             }
 
@@ -27,7 +27,7 @@ namespace Chroma
             template<class Ret, class... Args>
             static Ret DoReturn(VariantT& variant, Args&& ... args)
             {
-                typedef Impl<VariantT::count> Impl;
+                using Impl = Impl<VariantT::count>;
                 return Impl::template DoReturn<Ret>(variant, std::forward<Args>(args)...);
             }
 
@@ -35,7 +35,7 @@ namespace Chroma
             template<class... Args>
             static void DoSame(VariantT& variant1, VariantT& variant2, Args&& ... args)
             {
-                typedef Impl<VariantT::count> Impl;
+                using Impl = Impl<VariantT::count>;
                 Impl::DoSame(variant1, variant2, std::forward<Args>(args)...);
             }
 
@@ -43,7 +43,7 @@ namespace Chroma
             template<class Ret, class... Args>
             static Ret DoSameReturn(VariantT& variant1, VariantT& variant2, Args&& ... args)
             {
-                typedef Impl<VariantT::count> Impl;
+                using Impl = Impl<VariantT::count>;
                 return Impl::template DoSameReturn<Ret>(variant1, variant2, std::forward<Args>(args)...);
             }
         private:
@@ -72,13 +72,14 @@ namespace Chroma
             template<class T, class Ret, class... Args>
             static Ret DoSameUltimatelyReturn(VariantT& variant1, VariantT& variant2, Args&& ... args)
             {
-                return ExecutionObject::DoReturn(variant1.template Get<T>(), variant2.template Get<T>(), std::forward<Args>(args)...);
+                return ExecutionObject::DoReturn(
+                    variant1.template Get<T>(), variant2.template Get<T>(), std::forward<Args>(args)...);
             }
 
             template<VariadicTemplateSize index>
             struct Impl
             {
-                typedef typename VariadicTemplateT::template Parameter<index - 1>::Type PieceType;
+                using PieceType = typename VariadicTemplateT::template Parameter<index - 1>::Type;
 
                 // Normal
                 template<class... Args>
@@ -124,7 +125,7 @@ namespace Chroma
             template<>
             struct Impl<0>
             {
-                typedef typename VariadicTemplateT::template Parameter<0>::Type PieceType;
+                using PieceType = typename VariadicTemplateT::template Parameter<0>::Type;
 
                 // Normal
                 template<class... Args>
@@ -193,29 +194,37 @@ namespace Chroma
     template<class Visitor, class Variant1, class Variant2, class... Args>
     static void VisitMultiple(Variant1& variant1, Variant2& variant2, Args&& ... args)
     {
-        static_assert(VariantTraits<Variant1>::isVariant && VariantTraits<Variant2>::isVariant, "The variant arguments must actually be a Variant.");
-        detail::VariantSwitch<Variant2, detail::MultipleVisitImplementation<Visitor>>::Do(variant2, variant1, std::forward<Args>(args)...);
+        static_assert(
+            VariantTraits<Variant1>::isVariant && VariantTraits<Variant2>::isVariant,
+            "The variant arguments must actually be a Variant.");
+        detail::VariantSwitch<Variant2, detail::MultipleVisitImplementation<Visitor>>::Do(
+            variant2, variant1, std::forward<Args>(args)...);
     }
 
     // The Visitor needs to have a static DoReturn function with (Type, Args...) arguments
     template<class Visitor, class Ret, class Variant1, class Variant2, class... Args>
     static Ret VisitReturnMultiple(Variant1& variant1, Variant2& variant2, Args&& ... args)
     {
-        static_assert(VariantTraits<Variant1>::isVariant && VariantTraits<Variant2>::isVariant, "The variant arguments must actually be a Variant.");
-        return detail::VariantSwitch<Variant2, detail::MultipleVisitReturnImplementation<Visitor, Ret>>::template DoReturn<Ret>(variant2, variant1, std::forward<Args>(args)...);
+        static_assert(
+            VariantTraits<Variant1>::isVariant && VariantTraits<Variant2>::isVariant,
+            "The variant arguments must actually be a Variant.");
+        return detail::VariantSwitch<Variant2, detail::MultipleVisitReturnImplementation<Visitor, Ret>>::
+            template DoReturn<Ret>(variant2, variant1, std::forward<Args>(args)...);
     }
 
     // The Visitor needs to have a static Do function with (Type, Args...) arguments
     template<class Visitor, class VariantType, class... Args>
     static void VisitMultipleSame(VariantType& variant1, VariantType& variant2, Args&& ... args)
     {
-        detail::VariantSwitch<VariantType, Visitor>::DoSame(variant1, variant2, std::forward<Args>(args)...);
+        detail::VariantSwitch<VariantType, Visitor>::DoSame(
+            variant1, variant2, std::forward<Args>(args)...);
     }
 
     // The Visitor needs to have a static DoReturn function with (Type, Args...) arguments
     template<class Visitor, class Ret, class VariantType, class... Args>
     static Ret VisitReturnMultipleSame(VariantType& variant1, VariantType& variant2, Args&& ... args)
     {
-        return detail::VariantSwitch<VariantType, Visitor>::template DoSameReturn<Ret>(variant1, variant2, std::forward<Args>(args)...);
+        return detail::VariantSwitch<VariantType, Visitor>::template DoSameReturn<Ret>(
+            variant1, variant2, std::forward<Args>(args)...);
     }
 }

@@ -18,7 +18,7 @@ namespace Chroma
             static void Forward(Args&& ... args)
             {
                 static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-                typedef IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1> NextIteration;
+                using NextIteration = IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>;
                 NextIteration::Forward(std::forward<Args>(args)...);
                 IteratorT<index>::Do(std::forward<Args>(args)...);
             }
@@ -27,7 +27,7 @@ namespace Chroma
             static void Backward(Args&& ... args)
             {
                 static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-                typedef IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1> NextIteration;
+                using NextIteration = IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>;
                 IteratorT<index>::Do(std::forward<Args>(args)...);
                 NextIteration::Backward(std::forward<Args>(args)...);
             }
@@ -36,7 +36,7 @@ namespace Chroma
             static ValidityT CheckStopForward(ValidityT invalid, Args&& ... args)
             {
                 static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-                typedef IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1> NextIteration;
+                using NextIteration = IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>;
                 if (NextIteration::template CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...) == invalid)
                     return invalid;
 
@@ -47,7 +47,7 @@ namespace Chroma
             static ValidityT CheckStopBackward(ValidityT invalid, Args&& ... args)
             {
                 static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-                typedef IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1> NextIteration;
+                using NextIteration = IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>;
                 if (IteratorT<index>::Check(std::forward<Args>(args)...) == invalid)
                     return invalid;
 
@@ -90,7 +90,7 @@ namespace Chroma
         template<class NumericT, template<NumericT> class IteratorT, NumericT max, NumericT min, NumericT index>
         struct IterateRangeImplementationEnum
         {
-            typedef typename std::underlying_type<NumericT>::type Underlying;
+            using Underlying = typename std::underlying_type<NumericT>::type;
 
             template<class... Args>
             static void Forward(Args&& ... args)
@@ -98,7 +98,8 @@ namespace Chroma
                 static_assert(
                     static_cast<Underlying>(max) >= static_cast<Underlying>(min),
                     "Max must be greater than or equal to min when you iterate over a range.");
-                typedef IterateRangeImplementationEnum<NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))> NextIteration;
+                using NextIteration = IterateRangeImplementationEnum<
+                    NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))>;
                 NextIteration::Forward(std::forward<Args>(args)...);
                 IteratorT<index>::Do(std::forward<Args>(args)...);
             }
@@ -109,7 +110,8 @@ namespace Chroma
                 static_assert(
                     static_cast<Underlying>(max) >= static_cast<Underlying>(min),
                     "Max must be greater than or equal to min when you iterate over a range.");
-                typedef IterateRangeImplementationEnum<NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))> NextIteration;
+                using NextIteration = IterateRangeImplementationEnum<
+                    NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))>;
                 IteratorT<index>::Do(std::forward<Args>(args)...);
                 NextIteration::Backward(std::forward<Args>(args)...);
             }
@@ -120,7 +122,8 @@ namespace Chroma
                 static_assert(
                     static_cast<Underlying>(max) >= static_cast<Underlying>(min),
                     "Max must be greater than or equal to min when you iterate over a range.");
-                typedef IterateRangeImplementationEnum<NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))> NextIteration;
+                using NextIteration = IterateRangeImplementationEnum<
+                    NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))>;
                 if (NextIteration::template CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...) == invalid)
                     return invalid;
 
@@ -133,7 +136,8 @@ namespace Chroma
                 static_assert(
                     static_cast<Underlying>(max) >= static_cast<Underlying>(min),
                     "Max must be greater than or equal to min when you iterate over a range.");
-                typedef IterateRangeImplementationEnum<NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))> NextIteration;
+                using NextIteration = IterateRangeImplementationEnum<
+                    NumericT, IteratorT, max, min, static_cast<NumericT>((static_cast<Underlying>(index) - 1))>;
                 if (IteratorT<min>::Check(std::forward<Args>(args)...) == invalid)
                     return invalid;
 
@@ -144,7 +148,7 @@ namespace Chroma
         template<class NumericT, template<NumericT> class IteratorT, NumericT max, NumericT min>
         struct IterateRangeImplementationEnum<NumericT, IteratorT, max, min, min>
         {
-            typedef typename std::underlying_type<NumericT>::type Underlying;
+            using Underlying = typename std::underlying_type<NumericT>::type;
 
             template<class... Args>
             static void Forward(Args&& ... args)
@@ -189,8 +193,8 @@ namespace Chroma
             template<class... PassArgs>
             static void Forward(PassArgs&& ... passArgs)
             {
-                typedef typename VariadicTemplate::template Parameter<index>::Type Parameter;
-                typedef IterateRangeImplementationVariadicTemplate<IteratorT, VariadicTemplate, index - 1> NextIteration;
+                using Parameter = typename VariadicTemplate::template Parameter<index>::Type;
+                using NextIteration = IterateRangeImplementationVariadicTemplate<IteratorT, VariadicTemplate, index - 1>;
                 NextIteration::Forward();
                 IteratorT::template Do<Parameter>(std::forward<PassArgs>(passArgs)...);
             }
@@ -198,8 +202,8 @@ namespace Chroma
             template<class... PassArgs>
             static void Backward(PassArgs&& ... passArgs)
             {
-                typedef typename VariadicTemplate::template Parameter<index>::Type Parameter;
-                typedef IterateRangeImplementationVariadicTemplate<IteratorT, VariadicTemplate, index - 1> NextIteration;
+                using Parameter = typename VariadicTemplate::template Parameter<index>::Type;
+                using NextIteration = IterateRangeImplementationVariadicTemplate<IteratorT, VariadicTemplate, index - 1>;
                 IteratorT::template Do<Parameter>();
                 NextIteration::Backward(std::forward<PassArgs>(passArgs)...);
             }
@@ -211,14 +215,14 @@ namespace Chroma
             template<class... PassArgs>
             static void Forward(PassArgs&& ... passArgs)
             {
-                typedef typename VariadicTemplate::template Parameter<0>::Type Parameter;
+                using Parameter = typename VariadicTemplate::template Parameter<0>::Type;
                 IteratorT::template Do<Parameter>(std::forward<PassArgs>(passArgs)...);
             }
 
             template<class... PassArgs>
             static void Backward(PassArgs&& ... passArgs)
             {
-                typedef typename VariadicTemplate::template Parameter<0>::Type Parameter;
+                using Parameter = typename VariadicTemplate::template Parameter<0>::Type;
                 IteratorT::template Do<Parameter>(std::forward<PassArgs>(passArgs)...);
             }
         };
@@ -307,7 +311,8 @@ namespace Chroma
     ValidityT IterateRangeForwardCheckStop(ValidityT stop, Args&& ... args)
     {
         static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::template CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementation<
+            NumericT, IteratorT, max, min, max>::template CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -325,7 +330,8 @@ namespace Chroma
     ValidityT IterateRangeBackwardCheckStop(ValidityT stop, Args&& ... args)
     {
         static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::template CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementation<
+            NumericT, IteratorT, max, min, max>::template CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -357,8 +363,10 @@ namespace Chroma
         typename std::enable_if<std::is_enum<NumericT>::value, int>::type = 0>
     void IterateRangeForward(Args&& ... args)
     {
-        typedef typename std::underlying_type<NumericT>::type Underlying;
-        static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
+        using Underlying = typename std::underlying_type<NumericT>::type;
+        static_assert(
+            static_cast<Underlying>(max) >= static_cast<Underlying>(min),
+            "Max must be greater than or equal to min when you iterate over a range.");
         detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::Forward(std::forward<Args>(args)...);
     }
 
@@ -374,9 +382,12 @@ namespace Chroma
         typename std::enable_if<std::is_enum<NumericT>::value, int>::type = 0>
     void IterateRangeBackward(Args&& ... args)
     {
-        typedef typename std::underlying_type<NumericT>::type Underlying;
-        static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
-        detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::Backward(std::forward<Args>(args)...);
+        using Underlying = typename std::underlying_type<NumericT>::type;
+        static_assert(
+            static_cast<Underlying>(max) >= static_cast<Underlying>(min),
+            "Max must be greater than or equal to min when you iterate over a range.");
+        detail::IterateRangeImplementationEnum<
+            NumericT, IteratorT, max, min, max>::Backward(std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Do function
@@ -408,9 +419,12 @@ namespace Chroma
         typename std::enable_if<std::is_enum<NumericT>::value, int>::type = 0>
     ValidityT IterateRangeForwardCheckStop(ValidityT stop, Args&& ... args)
     {
-        typedef typename std::underlying_type<NumericT>::type Underlying;
-        static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::template CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
+        using Underlying = typename std::underlying_type<NumericT>::type;
+        static_assert(
+            static_cast<Underlying>(max) >= static_cast<Underlying>(min),
+            "Max must be greater than or equal to min when you iterate over a range.");
+        return detail::IterateRangeImplementationEnum<
+            NumericT, IteratorT, max, min, max>::template CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -427,9 +441,12 @@ namespace Chroma
         typename std::enable_if<std::is_enum<NumericT>::value, int>::type = 0>
     ValidityT IterateRangeBackwardCheckStop(ValidityT stop, Args&& ... args)
     {
-        typedef typename std::underlying_type<NumericT>::type Underlying;
-        static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::template CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
+        using Underlying = typename std::underlying_type<NumericT>::type;
+        static_assert(
+            static_cast<Underlying>(max) >= static_cast<Underlying>(min),
+            "Max must be greater than or equal to min when you iterate over a range.");
+        return detail::IterateRangeImplementationEnum<
+            NumericT, IteratorT, max, min, max>::template CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -457,8 +474,9 @@ namespace Chroma
         class... PassArgs>
     void IterateRangeForward(PassArgs&& ... passArgs)
     {
-        typedef VariadicTemplate<Args...> Template;
-        detail::IterateRangeImplementationVariadicTemplate<IteratorT, Template, Template::count - 1>::Forward(std::forward<PassArgs>(passArgs)...);
+        using Template = VariadicTemplate<Args...>;
+        detail::IterateRangeImplementationVariadicTemplate<
+            IteratorT, Template, Template::count - 1>::Forward(std::forward<PassArgs>(passArgs)...);
     }
 
     // IteratorT needs to have a static Do function
@@ -469,8 +487,9 @@ namespace Chroma
         class... PassArgs>
     void IterateRangeBackward(PassArgs&& ... passArgs)
     {
-        typedef VariadicTemplate<Args...> Template;
-        detail::IterateRangeImplementationVariadicTemplate<IteratorT, Template, Template::count - 1>::Backward(std::forward<PassArgs>(passArgs)...);
+        using Template = VariadicTemplate<Args...>;
+        detail::IterateRangeImplementationVariadicTemplate<
+            IteratorT, Template, Template::count - 1>::Backward(std::forward<PassArgs>(passArgs)...);
     }
 
     // IteratorT needs to have a static Do function
@@ -487,7 +506,9 @@ namespace Chroma
     template<class... Args, class... PassArgs>
     void Fill(std::tuple<Args...>& tuple, PassArgs&& ... args)
     {
-        static_assert(sizeof...(Args) == sizeof...(PassArgs), "The tuple needs to be the same size as the passed arguments.");
-        detail::Filler<sizeof...(Args) - 1 == 0, sizeof...(Args) - 1, 0>::Do(tuple, std::tuple<PassArgs...>(std::forward<Args>(args)...));
+        static_assert(
+            sizeof...(Args) == sizeof...(PassArgs), "The tuple needs to be the same size as the passed arguments.");
+        detail::Filler<sizeof...(Args) - 1 == 0, sizeof...(Args) - 1, 0>::Do(
+            tuple, std::tuple<PassArgs...>(std::forward<Args>(args)...));
     }
 }

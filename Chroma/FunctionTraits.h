@@ -15,17 +15,17 @@ namespace Chroma
     template<class Ret, class... Args>
     struct FunctionTraits<Ret(*)(Args...)>
     {
-        typedef Ret(*Type)(Args...);
-        typedef Function<Ret, Args...> FunctionT;
+        using Type = Ret(*)(Args...);
+        using FunctionT = Function<Ret, Args...>;
 
-        typedef Ret ReturnT;
-        typedef ParameterPack<Args...> ParameterPackT;
+        using ReturnT = Ret;
+        using ParameterPackT = ParameterPack<Args...>;
         static constexpr ParameterIndex parameterCount = ParameterPackT::count;
 
         template<ParameterIndex index>
         struct Parameter
         {
-            typedef typename DiscoverType<index, Args...>::Type Type;
+            using Type = typename DiscoverType<index, Args...>::Type;
         };
 
         static constexpr bool isFunction = true;
@@ -36,18 +36,18 @@ namespace Chroma
     template<class Ret, class Obj, class... Args>
     struct FunctionTraits<Ret(Obj::*)(Args...)>
     {
-        typedef Ret(Obj::*Type)(Args...);
-        typedef Function<Ret, Args...> FunctionT;
+        using Type = Ret(Obj::*)(Args...);
+        using FunctionT = Function<Ret, Args...>;
 
-        typedef Ret ReturnT;
-        typedef Obj ObjectT;
-        typedef ParameterPack<Args...> ParameterPackT;
+        using ReturnT = Ret;
+        using ObjectT = Obj;
+        using ParameterPackT = ParameterPack<Args...>;
         static constexpr ParameterIndex parameterCount = ParameterPackT::count;
 
         template<ParameterIndex index>
         struct Parameter
         {
-            typedef typename DiscoverType<index, Args...>::Type Type;
+            using Type = typename DiscoverType<index, Args...>::Type;
         };
 
         static constexpr bool isFunction = false;
@@ -58,18 +58,18 @@ namespace Chroma
     template<class Ret, class Obj, class... Args>
     struct FunctionTraits<Ret(Obj::*)(Args...) const>
     {
-        typedef Ret(Obj::*Type)(Args...) const;
-        typedef Function<Ret, Args...> FunctionT;
+        using Type = Ret(Obj::*)(Args...) const;
+        using FunctionT = Function<Ret, Args...>;
 
-        typedef Ret ReturnT;
-        typedef Obj ObjectT;
-        typedef ParameterPack<Args...> ParameterPackT;
+        using ReturnT = Ret;
+        using ObjectT = Obj;
+        using ParameterPackT = ParameterPack<Args...>;
         static constexpr ParameterIndex parameterCount = ParameterPackT::count;
 
         template<ParameterIndex index>
         struct Parameter
         {
-            typedef typename DiscoverType<index, Args...>::Type Type;
+            using Type = typename DiscoverType<index, Args...>::Type;
         };
 
         static constexpr bool isFunction = false;
@@ -89,16 +89,16 @@ namespace Chroma
     template<class Ret, class... Args>
     struct FunctionTraits<std::function<Ret(Args...)>>
     {
-        typedef Function<Ret, Args...> FunctionT;
+        using FunctionT = Function<Ret, Args...>;
 
-        typedef Ret ReturnT;
-        typedef ParameterPack<Args...> ParameterPackT;
+        using ReturnT = Ret;
+        using ParameterPackT = ParameterPack<Args...>;
         static constexpr ParameterIndex parameterCount = ParameterPackT::count;
 
         template<ParameterIndex index>
         struct Parameter
         {
-            typedef typename DiscoverType<index, Args...>::Type Type;
+            using Type = typename DiscoverType<index, Args...>::Type;
         };
     };
 }

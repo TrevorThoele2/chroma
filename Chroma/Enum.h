@@ -11,7 +11,7 @@ namespace Chroma
         class TupleTypeExpander
         {
         public:
-            typedef typename std::underlying_type<EnumType>::type Underlying;
+            using Underlying = typename std::underlying_type<EnumType>::type;
             static constexpr Underlying maxU = static_cast<Underlying>(max);
             static constexpr Underlying minU = static_cast<Underlying>(min);
         private:
@@ -20,17 +20,17 @@ namespace Chroma
             template<unsigned int index, class... HoldArgs>
             struct Impl
             {
-                typedef T<static_cast<EnumType>(index - 1)> PieceType;
-                typedef typename Impl<index - 1, PieceType, HoldArgs...>::MadeT MadeT;
+                using PieceType = T<static_cast<EnumType>(index - 1)>;
+                using MadeT = typename Impl<index - 1, PieceType, HoldArgs...>::MadeT;
             };
 
             template<class... HoldArgs>
             struct Impl<0, HoldArgs...>
             {
-                typedef std::tuple<HoldArgs...> MadeT;
+                using MadeT = std::tuple<HoldArgs...>;
             };
         public:
-            typedef typename Impl<maxU>::MadeT Type;
+            using Type = typename Impl<maxU>::MadeT;
         };
     }
 
@@ -40,8 +40,8 @@ namespace Chroma
     template<class EnumType, EnumType beginPass, EnumType endPass>
     struct EnumIterationTraits
     {
-        typedef EnumType EnumT;
-        typedef typename std::underlying_type<EnumType>::type UnderlyingType;
+        using EnumT = EnumType;
+        using UnderlyingType = typename std::underlying_type<EnumType>::type;
 
         static constexpr EnumType begin = beginPass;
         static constexpr EnumType end = endPass;

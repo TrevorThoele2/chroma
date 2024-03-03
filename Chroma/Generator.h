@@ -13,14 +13,19 @@ namespace Chroma
         struct Impl
         {
             static_assert(lower <= upper, "Lower must be less than or equal to upper.");
-            typedef typename Impl<(includeEnd) ? ((backward) ? count == lower : count == upper) : ((backward) ? IterateT(count - 1) == lower : IterateT(count + 1) == upper), backward, includeEnd, lower, upper, (backward) ? IterateT(count - 1) : IterateT(count + 1), HoldArgs..., count>::T T;
+            using T = typename Impl<
+                (includeEnd) ?
+                    ((backward) ? count == lower : count == upper) :
+                    ((backward) ? IterateT(count - 1) == lower : IterateT(count + 1) == upper),
+                backward, includeEnd, lower, upper,
+                (backward) ? IterateT(count - 1) : IterateT(count + 1), HoldArgs..., count>::T;
         };
 
         template<bool backward, bool includeEnd, IterateT lower, IterateT upper, IterateT count, IterateT... HoldArgs>
         struct Impl<true, backward, includeEnd, lower, upper, count, HoldArgs...>
         {
             static_assert(lower <= upper, "Lower must be less than or equal to upper.");
-            typedef GenT<HoldArgs...> T;
+            using T = GenT<HoldArgs...>;
         };
     public:
         template<IterateT lower, IterateT upper, bool includeEnd = false>
@@ -28,7 +33,13 @@ namespace Chroma
         template<IterateT lower, IterateT upper, bool includeEnd = false>
         using Forward = typename Impl<upper == lower, false, includeEnd, lower, upper, lower>::T;
         template<IterateT left, IterateT right, bool includeEnd = false>
-        using Auto = typename Impl<right == left, (left >= right), includeEnd, (left >= right) ? right : left, (left >= right) ? left : right, (left >= right) ? left : right>::T;
+        using Auto = typename Impl<
+            right == left,
+            (left >= right),
+            includeEnd,
+            (left >= right) ? right : left,
+            (left >= right) ? left : right,
+            (left >= right) ? left : right>::T;
     };
 
     // IteratorT needs a type called Type in it
@@ -40,15 +51,20 @@ namespace Chroma
         struct Impl
         {
             static_assert(lower <= upper, "Lower must be less than or equal to upper.");
-            typedef typename IteratorT<count>::Type PieceType;
-            typedef typename Impl<(includeEnd) ? ((backward) ? count == lower : count == upper) : ((backward) ? IterateT(count - 1) == lower : IterateT(count + 1) == upper), backward, includeEnd, lower, upper, (backward) ? IterateT(count - 1) : IterateT(count + 1), HoldArgs..., PieceType>::T T;
+            using PieceType = typename IteratorT<count>::Type;
+            using T = typename Impl<
+                (includeEnd) ?
+                ((backward) ? count == lower : count == upper) :
+                ((backward) ? IterateT(count - 1) == lower : IterateT(count + 1) == upper),
+                backward, includeEnd, lower, upper,
+                (backward) ? IterateT(count - 1) : IterateT(count + 1), HoldArgs..., PieceType>::T;
         };
 
         template<bool backward, bool includeEnd, IterateT lower, IterateT upper, IterateT count, class... HoldArgs>
         struct Impl<true, backward, includeEnd, lower, upper, count, HoldArgs...>
         {
             static_assert(lower <= upper, "Lower must be less than or equal to upper.");
-            typedef GenT<HoldArgs...> T;
+            using T = GenT<HoldArgs...>;
         };
     public:
         template<IterateT lower, IterateT upper, bool includeEnd = false>
@@ -56,6 +72,12 @@ namespace Chroma
         template<IterateT lower, IterateT upper, bool includeEnd = false>
         using Forward = typename Impl<upper == lower, false, includeEnd, lower, upper, lower>::T;
         template<IterateT left, IterateT right, bool includeEnd = false>
-        using Auto = typename Impl<right == left, (left >= right), includeEnd, (left >= right) ? right : left, (left >= right) ? left : right, (left >= right) ? left : right>::T;
+        using Auto = typename Impl<
+            right == left,
+            (left >= right),
+            includeEnd,
+            (left >= right) ? right : left,
+            (left >= right) ? left : right,
+            (left >= right) ? left : right>::T;
     };
 }

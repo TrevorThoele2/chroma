@@ -9,12 +9,12 @@ namespace Chroma
     template<class Ret, class... Args>
     struct DiscoverStdFunction
     {
-        typedef std::function<Ret(Args...)> T;
+        using T = std::function<Ret(Args...)>;
     };
 
     template<class Ret, class... Args>
     struct DiscoverStdFunction<Ret, ParameterPack<Args...>>
     {
-        typedef std::function<Ret(Args...)> T;
+        using T = std::function<Ret(Args...)>;
     };
 }

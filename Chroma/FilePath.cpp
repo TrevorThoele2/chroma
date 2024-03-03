@@ -60,6 +60,13 @@ namespace Chroma
         return value.c_str();
     }
 
+    FilePath FilePath::operator+(const std::string& arg) const
+    {
+        FilePath path(*this);
+        path.Append(arg);
+        return path;
+    }
+
     FilePath& FilePath::Set(const std::string& set)
     {
         value = set;

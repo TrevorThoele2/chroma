@@ -2,5 +2,5 @@
 
 namespace Chroma
 {
-    typedef size_t RangeSize;
+    using RangeSize = size_t;
 }

@@ -27,6 +27,8 @@ namespace Chroma
         operator const char*();
         const char* c_str() const;
 
+        FilePath operator+(const std::string& arg) const;
+
         FilePath& Set(const std::string& set);
         FilePath& SetFileName(const FileName& name);
         FilePath& SetExtension(const std::string& replace);
@@ -62,8 +64,8 @@ namespace std
     template<>
     struct hash<::Chroma::FilePath>
     {
-        typedef ::Chroma::FilePath argument_type;
-        typedef std::size_t result_type;
+        using argument_type = ::Chroma::FilePath;
+        using result_type = std::size_t;
 
         result_type operator()(const argument_type& arg) const
         {

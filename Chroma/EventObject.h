@@ -15,8 +15,8 @@ namespace Chroma
     class Event
     {
     public:
-        typedef std::function<void(Args...)> FunctionT;
-        typedef EventConnection<Args...> Connection;
+        using FunctionT = std::function<void(Args...)>;
+        using Connection = EventConnection<Args...>;
     public:
         Event();
         Event(const Event &arg);
@@ -43,15 +43,15 @@ namespace Chroma
     private:
         friend class Connection;
     private:
-        typedef std::list<FunctionT> Slots;
-        typedef typename Slots::iterator iterator;
-        typedef typename Slots::const_iterator const_iterator;
+        using Slots = std::list<FunctionT>;
+        using iterator = typename Slots::iterator;
+        using const_iterator = typename Slots::const_iterator;
 
         Slots slots;
         // Used when executing this event
         iterator next;
 
-        typedef std::list<Connection> Connections;
+        using Connections = std::list<Connection>;
         Connections connections;
 
         // Finds the offset of the next iterator

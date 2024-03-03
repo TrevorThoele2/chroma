@@ -44,8 +44,8 @@ namespace std
     template<>
     struct hash<::Chroma::FileName>
     {
-        typedef ::Chroma::FileName argument_type;
-        typedef std::size_t result_type;
+        using argument_type = ::Chroma::FileName;
+        using result_type = std::size_t;
 
         result_type operator()(const argument_type& arg) const
         {
