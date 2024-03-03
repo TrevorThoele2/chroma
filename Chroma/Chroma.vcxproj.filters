@@ -28,7 +28,7 @@
     <ClInclude Include="Iterate.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
+    <ClInclude Include="MathUtility.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
     <ClInclude Include="ParameterIndex.h">
@@ -103,6 +103,12 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
+    <ClInclude Include="DetailedException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NameValuePair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -127,6 +133,12 @@
     </ClCompile>
     <ClCompile Include="ScopedEventConnection.cpp">
       <Filter>Source Files\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailedException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NameValuePair.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
