@@ -13,15 +13,6 @@
     <ClInclude Include="Enum.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="EventConnection.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="EventObject.h">
-      <Filter>Header Files\Template</Filter>
-    </ClInclude>
     <ClInclude Include="Function.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
@@ -100,6 +91,30 @@
     <ClInclude Include="Optional.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventConnection.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventObject.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopedEventConnection.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="IDManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDManagerIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Contract.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IsBracesConstructible.h">
+      <Filter>Header Files\Template</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -110,6 +125,12 @@
     </Filter>
     <Filter Include="Header Files\Template">
       <UniqueIdentifier>{7fb20225-b921-47ae-bed0-7cece6201a61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event">
+      <UniqueIdentifier>{d16cd858-df86-4e40-abd5-9532106c77b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event">
+      <UniqueIdentifier>{3bca6ab0-66b9-431a-98fd-035a5b781e5f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Optional.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopedEventConnection.cpp">
+      <Filter>Source Files\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

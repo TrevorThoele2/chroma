@@ -106,6 +106,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -127,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Any.h" />
+    <ClInclude Include="Contract.h" />
     <ClInclude Include="Bind.h" />
     <ClInclude Include="ClassPath.h" />
     <ClInclude Include="Enum.h" />
@@ -139,8 +141,11 @@
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionTraits.h" />
     <ClInclude Include="Generator.h" />
+    <ClInclude Include="IDManager.h" />
+    <ClInclude Include="IDManagerIterator.h" />
     <ClInclude Include="Indices.h" />
     <ClInclude Include="Invoke.h" />
+    <ClInclude Include="IsBracesConstructible.h" />
     <ClInclude Include="Iterate.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Optional.h" />
@@ -148,6 +153,7 @@
     <ClInclude Include="ParameterPack.h" />
     <ClInclude Include="RangeSize.h" />
     <ClInclude Include="RelativeFilePath.h" />
+    <ClInclude Include="ScopedEventConnection.h" />
     <ClInclude Include="SelectableType.h" />
     <ClInclude Include="StdFunction.h" />
     <ClInclude Include="StringUtility.h" />
@@ -165,6 +171,7 @@
     <ClCompile Include="FilePath.cpp" />
     <ClCompile Include="Optional.cpp" />
     <ClCompile Include="RelativeFilePath.cpp" />
+    <ClCompile Include="ScopedEventConnection.cpp" />
     <ClCompile Include="StringUtility.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
