@@ -17,7 +17,8 @@ namespace Chroma
 
     std::string ReplaceString(const std::string& string, const std::string& instance, const std::string& with);
 
-    size_t CountInstances(const std::string& input, const std::string& of);
+    [[nodiscard]] size_t CountInstances(const std::string& input, const std::string& of);
+    [[nodiscard]] bool Contains(const std::string& input, const std::string& of);
 
     void SpliceString(std::string& in, const std::string& check, const std::string& replace);
 

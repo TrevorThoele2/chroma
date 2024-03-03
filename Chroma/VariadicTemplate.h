@@ -9,9 +9,6 @@ namespace Chroma
 {
     using VariadicTemplateSize = size_t;
 
-    struct NonExistent
-    {};
-
     template<class... Args>
     class VariadicTemplate
     {
@@ -224,6 +221,33 @@ namespace Chroma
 
         template<template<class> class Predicate>
         using filter_with_indices = typename FilterWithIndices<Predicate>::Types;
+
+        template<template<VariadicTemplateSize> class Predicate>
+        class FilterByIndices
+        {
+        private:
+            template<VariadicTemplateSize index, class... DecidedTypes>
+            struct TypeStep
+            {
+                using PieceType = typename Parameter<index - 1>::Type;
+                static constexpr bool passes = Predicate<index - 1>::value;
+                using Types = std::conditional_t<
+                    passes,
+                    typename TypeStep<index - 1, DecidedTypes..., PieceType>::Types,
+                    typename TypeStep<index - 1, DecidedTypes...>::Types>;
+            };
+
+            template<class... DecidedTypes>
+            struct TypeStep<0, DecidedTypes...>
+            {
+                using Types = VariadicTemplate<DecidedTypes...>;
+            };
+        public:
+            using Types = typename TypeStep<count>::Types;
+        };
+
+        template<template<VariadicTemplateSize> class Predicate>
+        using filter_by_indices = typename FilterByIndices<Predicate>::Types;
     };
 
     template<class... Args>
