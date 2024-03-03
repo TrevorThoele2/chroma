@@ -33,9 +33,9 @@ namespace Chroma
     };
 
     template<class Ret, class... Args>
-    struct FunctionTraits<Ret(*const)(Args...)>
+    struct FunctionTraits<Ret(*)(Args...) noexcept>
     {
-        using Type = Ret(*)(Args...);
+        using Type = Ret(*)(Args...) noexcept;
         using FunctionT = Function<Ret, Args...>;
 
         using ReturnT = Ret;
@@ -76,9 +76,9 @@ namespace Chroma
     };
 
     template<class Ret, class Obj, class... Args>
-    struct FunctionTraits<Ret(Obj::*const)(Args...)>
+    struct FunctionTraits<Ret(Obj::*)(Args...) noexcept>
     {
-        using Type = Ret(Obj::*)(Args...);
+        using Type = Ret(Obj::*)(Args...) noexcept;
         using FunctionT = Function<Ret, Args...>;
 
         using ReturnT = Ret;
@@ -120,9 +120,9 @@ namespace Chroma
     };
 
     template<class Ret, class Obj, class... Args>
-    struct FunctionTraits<Ret(Obj::*const)(Args...) const>
+    struct FunctionTraits<Ret(Obj::*)(Args...) const noexcept>
     {
-        using Type = Ret(Obj::*)(Args...) const;
+        using Type = Ret(Obj::*)(Args...) const noexcept;
         using FunctionT = Function<Ret, Args...>;
 
         using ReturnT = Ret;
