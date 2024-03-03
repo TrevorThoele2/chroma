@@ -72,6 +72,54 @@ namespace function
         public:
             typedef ForwardTo<Args...> Type;
         };
+
+        template<class T>
+        class IsTypeInside
+        {
+        private:
+            template<VariadicTemplateSize index>
+            struct TypeStep
+            {
+                typedef typename Parameter<index - 1>::Type PieceType;
+                static constexpr bool areTypesSame = std::is_same<T, PieceType>::value;
+                // Check if types are the same - if they are, just return true, otherwise check lower down
+                static constexpr bool result = (areTypesSame) ? true : TypeStep<index - 1>::result;
+            };
+
+            template<>
+            struct TypeStep<0>
+            {
+                typedef typename Parameter<0>::Type PieceType;
+                static constexpr bool areTypesSame = std::is_same<T, PieceType>::value;
+                static constexpr bool result = (areTypesSame) ? true : false;
+            };
+        public:
+            static constexpr bool value = TypeStep<count>::result;
+        };
+
+        template<class T>
+        class IsConvertibleTypeInside
+        {
+        private:
+            template<VariadicTemplateSize index>
+            struct TypeStep
+            {
+                typedef typename Parameter<index - 1>::Type PieceType;
+                static constexpr bool areTypesConvertible = std::is_convertible<T, PieceType>::value;
+                // Check if types are the same - if they are, just return true, otherwise check lower down
+                static constexpr bool result = (areTypesConvertible) ? true : TypeStep<index - 1>::result;
+            };
+
+            template<>
+            struct TypeStep<0>
+            {
+                typedef typename Parameter<0>::Type PieceType;
+                static constexpr bool areTypesConvertible = std::is_convertible<T, PieceType>::value;
+                static constexpr bool result = (areTypesConvertible) ? true : false;
+            };
+        public:
+            static constexpr bool value = TypeStep<count>::result;
+        };
     };
 
     template<class... Args>

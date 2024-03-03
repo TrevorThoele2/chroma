@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Variant">
+      <UniqueIdentifier>{68679a21-838b-4258-b98b-28bd2683985e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Function.h">
@@ -72,8 +75,20 @@
     <ClInclude Include="ClassPath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Visit.h">
+      <Filter>Header Files\Variant</Filter>
+    </ClInclude>
     <ClInclude Include="Variant.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Variant</Filter>
+    </ClInclude>
+    <ClInclude Include="VariantDetail.h">
+      <Filter>Header Files\Variant</Filter>
+    </ClInclude>
+    <ClInclude Include="VariantTraits.h">
+      <Filter>Header Files\Variant</Filter>
+    </ClInclude>
+    <ClInclude Include="VariantException.h">
+      <Filter>Header Files\Variant</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

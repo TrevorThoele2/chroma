@@ -36,14 +36,14 @@ namespace function
                 if (IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>::CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...) == invalid)
                     return invalid;
 
-                return IteratorT<min>::Check(std::forward<Args>(args)...);
+                return IteratorT<index>::Check(std::forward<Args>(args)...);
             }
 
             template<class ValidityT, class... Args>
             static ValidityT CheckStopBackward(ValidityT invalid, Args&& ... args)
             {
                 static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-                if (IteratorT<min>::Check(std::forward<Args>(args)...) == invalid)
+                if (IteratorT<index>::Check(std::forward<Args>(args)...) == invalid)
                     return invalid;
 
                 return IterateRangeImplementation<NumericT, IteratorT, max, min, index - 1>::CheckStopBackward<ValidityT>(invalid, std::forward<Args>(args)...);
@@ -214,10 +214,10 @@ namespace function
     // Range is [min, max]
     // Invalid value is hit: returns invalid. Gets all the way through: returns the last valid value returned by IteratorT
     template<class NumericT, template<NumericT> class IteratorT, class ValidityT, NumericT max, NumericT min = std::numeric_limits<NumericT>::min(), class... Args, typename std::enable_if<!std::is_enum<NumericT>::value, int>::type = 0>
-    ValidityT IterateRangeForwardCheckStop(ValidityT invalid, Args&& ... args)
+    ValidityT IterateRangeForwardCheckStop(ValidityT stop, Args&& ... args)
     {
         static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -225,10 +225,10 @@ namespace function
     // Range is [min, max]
     // Invalid value is hit: returns invalid. Gets all the way through: returns the last valid value returned by IteratorT
     template<class NumericT, template<NumericT> class IteratorT, class ValidityT, NumericT max, NumericT min = std::numeric_limits<NumericT>::min(), class... Args, typename std::enable_if<!std::is_enum<NumericT>::value, int>::type = 0>
-    ValidityT IterateRangeBackwardCheckStop(ValidityT invalid, Args&& ... args)
+    ValidityT IterateRangeBackwardCheckStop(ValidityT stop, Args&& ... args)
     {
         static_assert(max >= min, "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::CheckStopBackward<ValidityT>(invalid, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementation<NumericT, IteratorT, max, min, max>::CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -236,9 +236,9 @@ namespace function
     // Range is [min, max]
     // Invalid value is hit: returns invalid. Gets all the way through: returns the last valid value returned by IteratorT
     template<class NumericT, template<NumericT> class IteratorT, class ValidityT, NumericT max, NumericT min = std::numeric_limits<NumericT>::min(), class... Args, typename std::enable_if<!std::is_enum<NumericT>::value, int>::type = 0>
-    ValidityT IterateRangeCheckStop(ValidityT invalid, Args&& ... args)
+    ValidityT IterateRangeCheckStop(ValidityT stop, Args&& ... args)
     {
-        return IterateRangeForwardCheckStop<NumericT, IteratorT, ValidityT, max, min>(invalid, std::forward<Args>(args)...);
+        return IterateRangeForwardCheckStop<NumericT, IteratorT, ValidityT, max, min>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Do function
@@ -277,11 +277,11 @@ namespace function
     // Range is [min, max]
     // Invalid value is hit: returns invalid. Gets all the way through: returns the last valid value returned by IteratorT
     template<class NumericT, template<NumericT> class IteratorT, class ValidityT, NumericT max, NumericT min = std::numeric_limits<NumericT>::min(), class... Args, typename std::enable_if<std::is_enum<NumericT>::value, int>::type = 0>
-    ValidityT IterateRangeForwardCheckStop(ValidityT invalid, Args&& ... args)
+    ValidityT IterateRangeForwardCheckStop(ValidityT stop, Args&& ... args)
     {
         typedef typename std::underlying_type<NumericT>::type Underlying;
         static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::CheckStopForward<ValidityT>(invalid, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::CheckStopForward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -289,11 +289,11 @@ namespace function
     // Range is [min, max]
     // Invalid value is hit: returns invalid. Gets all the way through: returns the last valid value returned by IteratorT
     template<class NumericT, template<NumericT> class IteratorT, class ValidityT, NumericT max, NumericT min = std::numeric_limits<NumericT>::min(), class... Args, typename std::enable_if<std::is_enum<NumericT>::value, int>::type = 0>
-    ValidityT IterateRangeBackwardCheckStop(ValidityT invalid, Args&& ... args)
+    ValidityT IterateRangeBackwardCheckStop(ValidityT stop, Args&& ... args)
     {
         typedef typename std::underlying_type<NumericT>::type Underlying;
         static_assert(static_cast<Underlying>(max) >= static_cast<Underlying>(min), "Max must be greater than or equal to min when you iterate over a range.");
-        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::CheckStopBackward<ValidityT>(invalid, std::forward<Args>(args)...);
+        return detail::IterateRangeImplementationEnum<NumericT, IteratorT, max, min, max>::CheckStopBackward<ValidityT>(stop, std::forward<Args>(args)...);
     }
 
     // IteratorT needs to have a static Check function
@@ -301,9 +301,9 @@ namespace function
     // Range is [min, max]
     // Invalid value is hit: returns invalid. Gets all the way through: returns the last valid value returned by IteratorT
     template<class NumericT, template<NumericT> class IteratorT, class ValidityT, NumericT max, NumericT min = std::numeric_limits<NumericT>::min(), class... Args, typename std::enable_if<std::is_enum<NumericT>::value, int>::type = 0>
-    ValidityT IterateRangeCheckStop(ValidityT invalid, Args&& ... args)
+    ValidityT IterateRangeCheckStop(ValidityT stop, Args&& ... args)
     {
-        return IterateRangeForwardCheckStop<NumericT, IteratorT, ValidityT, max, min>(invalid, std::forward<Args>(args)...);
+        return IterateRangeForwardCheckStop<NumericT, IteratorT, ValidityT, max, min>(stop, std::forward<Args>(args)...);
     }
 
     template<class... Args, class... PassArgs>
