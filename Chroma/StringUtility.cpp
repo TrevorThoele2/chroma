@@ -164,28 +164,38 @@ namespace Chroma
 
     bool StartsWith(const std::string& check, const std::string& startsWith)
     {
-        return check.find_first_of(startsWith) == 0;
+        const auto subString = check.substr(0, startsWith.size());
+        return subString == startsWith;
+    }
+
+    bool EndsWith(const std::string& check, const std::string& endsWith)
+    {
+        if (endsWith.size() > check.size())
+            return false;
+
+        const auto subString = check.substr(check.size() - endsWith.size(), endsWith.size());
+        return subString == endsWith;
     }
 
     std::vector<std::string> Split(const std::string& string, const std::string& splitter)
     {
-        if (string == "")
+        if (string.empty())
             return {};
 
         auto manipulateString = string;
-        auto splitterInstance = manipulateString.find(splitter);
-        if (splitterInstance == std::string::npos)
+        auto splitterPosition = manipulateString.find(splitter);
+        if (splitterPosition == std::string::npos)
             return { manipulateString };
 
         std::vector<std::string> returnValue;
 
-        while(splitterInstance != std::string::npos)
+        while(splitterPosition != std::string::npos)
         {
-            auto substr = manipulateString.substr(0, splitterInstance);
+            auto substr = manipulateString.substr(0, splitterPosition);
             if(!substr.empty())
                 returnValue.push_back(substr);
-            manipulateString.erase(0, splitterInstance + splitter.size());
-            splitterInstance = manipulateString.find(splitter);
+            manipulateString.erase(0, splitterPosition + splitter.size());
+            splitterPosition = manipulateString.find(splitter);
         }
 
         if (!manipulateString.empty())
